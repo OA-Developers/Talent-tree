@@ -42,8 +42,8 @@ export default function Sidebar() {
       <div className="flex flex-col justify-between flex-1 mt-6">
         <nav>
           <Link
-            className="flex items-center px-4 py-2 text-gray-700 rounded-md dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:text-gray-400 "
-            to="/"
+            className="flex items-center px-4 py-2 text-gray-700 rounded-md dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+            to="/Dashboard"
           >
             <MdOutlineDashboard />
 
