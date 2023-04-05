@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/login_screen.dart';
+import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/widgets/action_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -50,7 +51,7 @@ class WelcomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => WelcomeScreen(),
+                          builder: (_) => RegisterScreen(),
                         ),
                       );
                     },
