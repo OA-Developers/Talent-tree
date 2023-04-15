@@ -17,10 +17,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
       body: Padding(
-        padding: const EdgeInsets.only(top: 150, left: 25),
+        padding: const EdgeInsets.only(top: 150),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
                 "Sign In",
@@ -37,12 +37,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const LoginInputField(hintText: 'Confirm Password'),
               const SizedBox(height: 15),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Checkbox(
                     value: true,
                     onChanged: (value) {},
                   ),
-                  const Text("I am 18 or above and i agreee to the terms",
+                  const Text("I am 18 or above and i agree to the terms",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 ],
