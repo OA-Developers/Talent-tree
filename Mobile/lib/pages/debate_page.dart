@@ -13,18 +13,24 @@ class _DebatePageState extends State<DebatePage> {
     {
       'title': 'Debate 1',
       'description': 'This is the description for Debate 1',
+      'videoUrl':
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
       'thumbnail':
           'https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
     {
       'title': 'Debate 2',
       'description': 'This is the description for Debate 2',
+      'videoUrl':
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
       'thumbnail':
           'https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
     {
       'title': 'Debate 3',
       'description': 'This is the description for Debate 3',
+      'videoUrl':
+          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
       'thumbnail':
           'https://images.unsplash.com/photo-1561489396-888724a1543d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
@@ -40,7 +46,10 @@ class _DebatePageState extends State<DebatePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => DebateDetailsScreen(videoUrl: "https://www.youtube.com/watch?v=5hCq0V_edbY&pp=ygUGZGViYXRl"),
+                        builder: (_) => DebateDetailsScreen(
+                          videoUrl: items[index]['videoUrl']!,
+                          description: items[index]['description']!,
+                        ),
                       ));
                 }),
                 child: Card(
@@ -60,7 +69,7 @@ class _DebatePageState extends State<DebatePage> {
                       ListTile(
                         title: Text(
                           items[index]['title']!,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 18),
                         ),
                       ),

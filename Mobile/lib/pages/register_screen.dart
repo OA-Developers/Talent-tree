@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/login_screen.dart';
 import 'package:talent_tree/pages/main_screen.dart';
+import 'package:talent_tree/services/auth_services.dart';
+import 'package:talent_tree/utils/utils.dart';
 import 'package:talent_tree/widgets/login_input_field.dart';
 import 'package:talent_tree/widgets/action_button.dart';
 
@@ -12,6 +14,29 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void signupUser() {
+    if (emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty) {
+      showSnackBar(context, "All Field's are required!");
+      return;
+    }
+    if (passwordController.text != confirmPasswordController.text) {
+      showSnackBar(context, "Passwords Doesn't Match!");
+      return;
+    }
+    authService.signUpUser(
+        context: context,
+        email: emailController.text,
+        password: passwordController.text,
+        name: '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +55,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     color: Colors.white),
               ),
               const SizedBox(height: 25),
-              const LoginInputField(hintText: 'Email'),
+              LoginInputField(
+                hintText: 'Email',
+                controller: emailController,
+              ),
               const SizedBox(height: 25),
-              const LoginInputField(hintText: 'Password'),
+              LoginInputField(
+                hintText: 'Password',
+                controller: passwordController,
+              ),
               const SizedBox(height: 25),
-              const LoginInputField(hintText: 'Confirm Password'),
+              LoginInputField(
+                hintText: 'Confirm Password',
+                controller: confirmPasswordController,
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -57,15 +91,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textColor: Colors.white,
                   text: "Register",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => MainScreen(),
-                        ));
+                    // signupUser();
                   },
                 ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
@@ -78,7 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 15),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 ActionButton(
                     height: 50,

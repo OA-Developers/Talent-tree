@@ -1,22 +1,31 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/login_screen.dart';
 import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/widgets/action_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+  const WelcomeScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            "assets/images/welcome_bg_img.jpeg",
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/welcome_bg_img.jpeg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              child: Container(
+                color: Colors.black.withOpacity(0.3),
+              ),
+            ),
           ),
           Positioned(
             top: 100,
@@ -25,13 +34,9 @@ class WelcomeScreen extends StatelessWidget {
             child: SizedBox(
               width: 100,
               height: 100,
-              child: ColorFiltered(
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.darken),
-                child: Image.asset(
-                  "assets/images/logo.png",
-                  fit: BoxFit.contain,
-                ),
+              child: Image.asset(
+                "assets/images/logo.png",
+                fit: BoxFit.contain,
               ),
             ),
           ),

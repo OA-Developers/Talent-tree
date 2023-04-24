@@ -1,25 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
 class DebateDetailsScreen extends StatefulWidget {
   // const DebateDetailsScreen({super.key});
   final String videoUrl;
+  final String description;
 
-  DebateDetailsScreen({super.key, required this.videoUrl});
+ const DebateDetailsScreen(
+      {super.key, required this.videoUrl, required this.description});
   @override
   State<DebateDetailsScreen> createState() => _DebateDetailsScreenState();
 }
 
 class _DebateDetailsScreenState extends State<DebateDetailsScreen> {
-  late VideoPlayerController _controller;
+  late VideoPlayerController _videoPlayerController;
+  late ChewieController _chewieController;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl)
-      ..initialize().then((_) {
-        setState(() {});
-      });
+    _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
+      aspectRatio: _videoPlayerController.value.aspectRatio,
+      autoPlay: true,
+      looping: false,
+      allowMuting: true,
+      allowPlaybackSpeedChanging: false,
+      showControls: true,
+      fullScreenByDefault: false,
+      allowFullScreen: true,
+      placeholder: Container(
+        color: Colors.black,
+      ),
+    );
   }
 
   @override
@@ -33,34 +48,34 @@ class _DebateDetailsScreenState extends State<DebateDetailsScreen> {
             },
             icon: const Icon(Icons.arrow_back),
           )),
-      body: _controller.value.isInitialized
-          ? Column(
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Description of the video goes here.',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                ),
-              ],
-            )
-          : const Center(child: CircularProgressIndicator()),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
+      body: OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+          return orientation == Orientation.portrait
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: _videoPlayerController.value.aspectRatio,
+                      child: Chewie(
+                        controller: _chewieController,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.description,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Chewie(
+                  controller: _chewieController,
+                );
         },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
       ),
     );
   }
@@ -68,6 +83,7 @@ class _DebateDetailsScreenState extends State<DebateDetailsScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
   }
 }

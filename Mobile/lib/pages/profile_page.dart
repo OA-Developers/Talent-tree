@@ -10,6 +10,106 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: EdgeInsets.only(top: 50),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/web.jpeg'),
+                  backgroundColor: Colors.white,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'John Doe',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const ListTile(
+                leading: Icon(Icons.video_collection),
+                title: Text(
+                  "My Courses",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const ListTile(
+                leading: Icon(Icons.subscriptions),
+                title: Text(
+                  "My Subscriptions",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const ListTile(
+                leading: Icon(Icons.payment),
+                title: Text(
+                  "My Payments",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const ListTile(
+                leading: Icon(Icons.edit),
+                title: Text(
+                  "Edit Profile",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                trailing: Icon(Icons.arrow_forward),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              TextButton.icon(
+                icon: const Icon(
+                  Icons.power_settings_new,
+                  color: Colors.white,
+                ),
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 15, vertical: 5)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue.shade900),
+                ),
+                onPressed: () {},
+                label: const Text("Logout",
+                    style: TextStyle(color: Colors.white, fontSize: 18)),
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

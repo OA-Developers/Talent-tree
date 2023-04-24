@@ -31,13 +31,13 @@ class _SplashScreenState extends State<SplashScreen> {
         tag: "logo",
         child: Image.asset(
           'assets/images/logo.png',
-          scale: 2.5,
+          height: 100,
         ),
       )),
       bottomNavigationBar: const Padding(
         padding: EdgeInsets.all(35),
         child: Text(
-          "App",
+          "Talent Tree",
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16),
         ),

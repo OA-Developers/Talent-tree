@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   }).toList(),
                   options: CarouselOptions(
-                    height: 150.0,
+                    height: 200.0,
                     autoPlay: true,
                     enlargeCenterPage: true,
                     aspectRatio: 16 / 9,
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   }).toList(),
                   options: CarouselOptions(
-                    height: 150.0,
+                    height: 200.0,
                     autoPlay: true,
                     enlargeCenterPage: true,
                     aspectRatio: 16 / 9,
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Register Now',
                       style: TextStyle(fontSize: 20)),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 25),
                 const Text("About Us",
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -109,7 +109,9 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     "Lorem Ipsum is simply dummy text of the printing and typesetting ustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87
                     ),
                     textAlign: TextAlign.justify,
                   ),
