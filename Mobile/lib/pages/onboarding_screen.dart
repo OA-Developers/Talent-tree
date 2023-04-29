@@ -14,19 +14,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<Map<String, String>> onboardingPages = [
     {
       'image': 'assets/images/onboarding_img1.jpeg',
-      'title': 'Welcome to MyApp',
+      'title': 'Welcome to Talent Tree',
       'description':
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
     },
     {
       'image': 'assets/images/onboarding_img2.jpeg',
-      'title': 'Welcome to MyApp',
+      'title': 'Welcome to Talent Tree',
       'description':
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
     },
     {
       'image': 'assets/images/onboarding_img3.jpeg',
-      'title': 'Welcome to MyApp',
+      'title': 'Welcome to Talent Tree',
       'description':
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
     },

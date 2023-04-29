@@ -10,12 +10,12 @@ export default function Subscription1() {
       <div className="flex gap-7">
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700"
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Dialogues
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -25,12 +25,12 @@ export default function Subscription1() {
         </Link>
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Expressions
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -40,12 +40,12 @@ export default function Subscription1() {
         </Link>
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Memorization
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -57,12 +57,12 @@ export default function Subscription1() {
       <div className="flex gap-7">
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mt-7 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 mt-7 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Salesmanship
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -72,12 +72,12 @@ export default function Subscription1() {
         </Link>
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mt-7 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 mt-7 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Teamwork
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -87,12 +87,12 @@ export default function Subscription1() {
         </Link>
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mt-7 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 mt-7 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Improv
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -104,12 +104,12 @@ export default function Subscription1() {
       <div className="flex gap-7">
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mt-7 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 mt-7 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Communication
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -119,12 +119,12 @@ export default function Subscription1() {
         </Link>
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mt-7 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 mt-7 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Innovation
           </h5>
-          <div className="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div className="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>
@@ -134,12 +134,12 @@ export default function Subscription1() {
         </Link>
         <Link
           to="/subscriptionform"
-          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mt-7 "
+          className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 no::bg-gray-800 no::border-gray-700 no::hover:bg-gray-700 mt-7 "
         >
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 no::text-white">
             Interview Prep
           </h5>
-          <div class="font-normal text-gray-700 dark:text-gray-400 gap-3">
+          <div class="font-normal text-gray-700 no::text-gray-400 gap-3">
             <p>registered Students: 10</p>
             <div className="flex p-3 gap-3 ml-32">
             <button className="bg-gray-400 hover:bg-slate-600 rounded text-gray-50 pl-6 pr-6 pt-2 pb-2">Edit</button>

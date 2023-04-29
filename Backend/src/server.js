@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
+const cors = require('cors');
+const bannerRouter = require("./routes/banner")
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(authRouter);
+app.use(bannerRouter);
 
 mongoose
   .connect(process.env.DATABASE_URL)
@@ -17,6 +21,7 @@ mongoose
   .catch((e) => {
     console.log(e);
   });
+
 
 app.get("/", (req, res) => {
   res.send("Hello World");

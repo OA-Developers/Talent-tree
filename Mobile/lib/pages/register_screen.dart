@@ -19,6 +19,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
   final AuthService authService = AuthService();
 
+  bool isChecked = false;
+
   void signupUser() {
     if (emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
@@ -42,11 +44,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
       body: Padding(
-        padding: const EdgeInsets.only(top: 150),
+        padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image.asset(
+                "assets/images/logo.png",
+                height: 80,
+                width: 80,
+              ),
+              SizedBox(
+                height: 15,
+              ),
               const Text(
                 "Sign In",
                 style: TextStyle(
@@ -74,8 +84,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Checkbox(
-                    value: true,
-                    onChanged: (value) {},
+                    value: isChecked,
+                    onChanged: (value) {
+                      setState(() {
+                        isChecked = value!;
+                      });
+                    },
                   ),
                   const Text("I am 18 or above and i agree to the terms",
                       style: TextStyle(
@@ -95,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

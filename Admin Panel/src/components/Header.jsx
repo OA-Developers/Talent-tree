@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Route } from 'react-router-dom'
-import LoginSignupPage from './login'
+import LoginSignupPage from './Login'
 
 
 
@@ -14,12 +14,12 @@ export default function Header() {
       </svg>
       <span className="ml-3 text-xl">Talent Tree</span>
     </a>
-    <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+    {/* <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
       <a className="mr-5 hover:text-gray-900">First Link</a>
       <a className="mr-5 hover:text-gray-900">Second Link</a>
       <a className="mr-5 hover:text-gray-900">Third Link</a>
       <a className="mr-5 hover:text-gray-900">Fourth Link</a>
-    </nav>
+    </nav> */}
     
       <Link to="/">
     <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">LOG OUT

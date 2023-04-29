@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 import "package:talent_tree/models/user.dart";
 import "package:http/http.dart" as http;
+import 'package:talent_tree/providers/user_provider.dart';
 import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/utils/utils.dart';
 
@@ -35,5 +37,14 @@ class AuthService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+  }
+
+  void siginUser(
+      {required BuildContext context,
+      required String email,
+      required String password}) async {
+    try {
+      var userProvider = Provider.of<UserProvider>(context,listen:false,);
+    } catch (e) {}
   }
 }

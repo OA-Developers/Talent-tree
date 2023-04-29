@@ -1,8 +1,41 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const adminUser = require("../models/adminUser");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
+
+// admin signin
+
+authRouter.post("/admin/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await adminUser.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        msg: "User with this email does not exists!",
+      });
+    }
+
+
+    if (user.password !== password) {
+      return res.status(400).json({ msg: "Incorrect password" });
+    }
+    const token = jwt.sign({ id: user._id }, "passwordKey");
+    res.json({ token, ...user._doc });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+})
+
+
+
+
+
+
+
+
+
 
 authRouter.post("/api/signup", async (req, res) => {
   try {

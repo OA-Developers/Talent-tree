@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/main_screen.dart';
+import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/widgets/login_input_field.dart';
 import 'package:talent_tree/widgets/action_button.dart';
 
@@ -19,11 +20,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
       body: Padding(
-        padding: const EdgeInsets.only(top: 150),
+        padding: const EdgeInsets.only(top: 100),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image.asset(
+                "assets/images/logo.png",
+                height: 80,
+                width: 80,
+              ),
+              SizedBox(
+                height: 15,
+              ),
               const Text(
                 "Sign In",
                 style: TextStyle(
@@ -40,6 +49,20 @@ class _LoginScreenState extends State<LoginScreen> {
               LoginInputField(
                 hintText: 'Password',
                 controller: passwordController,
+              ),
+              const SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.only(right: 35.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Text("Forgot Password",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                ),
               ),
               const SizedBox(height: 25),
               Padding(
@@ -80,7 +103,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: Colors.white,
                     textColor: Colors.black,
                     text: "Register",
-                    onPressed: () {})
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => RegisterScreen(),
+                          ));
+                    })
               ]),
             ],
           ),
