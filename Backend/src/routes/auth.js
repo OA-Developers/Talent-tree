@@ -19,6 +19,7 @@ authRouter.post("/admin/login", async (req, res) => {
 
 
     if (user.password !== password) {
+      console.log(user, password, user.password);
       return res.status(400).json({ msg: "Incorrect password" });
     }
     const token = jwt.sign({ id: user._id }, "passwordKey");

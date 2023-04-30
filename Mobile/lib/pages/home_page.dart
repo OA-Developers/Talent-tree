@@ -27,12 +27,6 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 25),
-                const Text(
-                  "Our Latest Photos",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 25),
                 CarouselSlider(
                   items: _imageUrls.map((imageUrl) {
                     return Image.network(
@@ -51,13 +45,6 @@ class _HomePageState extends State<HomePage> {
                         const Duration(milliseconds: 800),
                     viewportFraction: 1.0,
                   ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                const Text(
-                  "Our Latest Videos",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 25),
                 CarouselSlider(
@@ -85,35 +72,49 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => RegistrationScreen()));
+                            builder: (_) => const RegistrationScreen()));
                   },
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                      const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 10.0),
                     ),
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.blue),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
                   ),
                   child: const Text('Register Now',
-                      style: TextStyle(fontSize: 20)),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1,
+                          fontFamily: 'Poppins')),
                 ),
                 const SizedBox(height: 25),
-                const Text("About Us",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 15),
+                Row(
+                  children: const [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text("About Us",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins')),
+                  ],
+                ),
                 const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting ustry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                    "Talent Tree is an innovative application that aims to revolutionize the casting process in the entertainment industry by connecting casting directors and actors directly. Our platform provides a streamlined and user-friendly experience for both casting directors and actors, making the process of casting for productions faster and more efficient.\n\nFor actors, Talent Tree offers a unique opportunity to showcase their talent and get noticed by casting directors. Our platform allows actors to easily upload their audition tapes, headshots, resumes, and other relevant information. This ensures that their profile is always up-to-date and accessible to casting directors who are looking for new talent.\n\nFor casting directors, Talent Tree provides a centralized database of actors that can be easily searched and filtered based on specific criteria such as age range, gender, location, and skill set. This saves valuable time and resources, and ensures that casting directors can find the best actors for their productions quickly and efficiently.\n\nOne of the most significant advantages of Talent Tree is that it enables casting directors to view audition tapes of actors remotely, which is especially beneficial in today's climate where virtual casting has become the norm. This allows casting directors to cast actors from anywhere in the world, without having to physically meet them in person.\n\nAt Talent Tree, we pride ourselves on our commitment to promoting diversity and inclusivity in the entertainment industry. We believe that everyone deserves a chance to showcase their talent, regardless of their background or identity. With Talent Tree, we aim to create a level playing field for actors of all backgrounds and provide them with an equal opportunity to succeed.\n\nOverall, Talent Tree is a game-changer for the entertainment industry, providing a much-needed solution for actors and casting directors alike. Whether you're an aspiring actor looking to jumpstart your career or a casting director searching for the perfect talent, Talent Tree is the platform for you.",
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
+                        fontFamily: 'Poppins',
                         color: Colors.black87),
                     textAlign: TextAlign.justify,
                   ),

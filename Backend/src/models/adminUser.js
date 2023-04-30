@@ -16,7 +16,7 @@ const adminUserSchema = mongoose.Schema({
             message: "Please enter a valid email address",
         },
     },
-    pasword: {
+    password: {
         type: String,
         required: true,
     },

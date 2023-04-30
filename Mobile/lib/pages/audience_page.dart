@@ -66,6 +66,7 @@ class _AudiencePageState extends State<AudiencePage> {
                                     Text("TV Shows",
                                         style: TextStyle(
                                             fontSize: 24.0,
+                                            fontFamily: 'Poppins',
                                             color: Colors.white)),
                                   ],
                                 ),
@@ -104,6 +105,7 @@ class _AudiencePageState extends State<AudiencePage> {
                                     Text("Movies",
                                         style: TextStyle(
                                             fontSize: 24.0,
+                                            fontFamily: 'Poppins',
                                             color: Colors.white)),
                                   ],
                                 ),
@@ -142,6 +144,7 @@ class _AudiencePageState extends State<AudiencePage> {
                                     Text("Web & Ads",
                                         style: TextStyle(
                                             fontSize: 24.0,
+                                            fontFamily: 'Poppins',
                                             color: Colors.white)),
                                   ],
                                 ),

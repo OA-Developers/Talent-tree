@@ -64,7 +64,7 @@ const Banners = () => {
         formData.append('file', file.originFileObj);
 
         try {
-            const response = await axios.post('http://localhost:8000/upload', formData);
+            const response = await axios.post('http://localhost:8000/banner/upload', formData);
             console.log('Form submission successful:', response);
         } catch (error) {
             console.error('Error submitting form:', error);

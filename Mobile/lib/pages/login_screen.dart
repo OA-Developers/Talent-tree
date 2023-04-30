@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/main_screen.dart';
 import 'package:talent_tree/pages/register_screen.dart';
+import 'package:talent_tree/services/auth_services.dart';
+import 'package:talent_tree/utils/utils.dart';
 import 'package:talent_tree/widgets/login_input_field.dart';
 import 'package:talent_tree/widgets/action_button.dart';
 
@@ -14,6 +16,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void loginUser() {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      showSnackBar(context, "All Field's are required!");
+      return;
+    }
+
+    authService.siginUser(
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +46,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 80,
                 width: 80,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              const Text(
-                "Sign In",
-                style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              Row(
+
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  SizedBox(width: 15,),
+                  Text(
+                    "Sign In",
+                    style: TextStyle(
+                        fontSize: 26,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
               ),
               const SizedBox(height: 25),
               LoginInputField(
@@ -49,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
               LoginInputField(
                 hintText: 'Password',
                 controller: passwordController,
+                isPassword: true,
               ),
               const SizedBox(height: 15),
               Padding(
@@ -60,42 +85,46 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500)),
                   ],
                 ),
               ),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ActionButton(
-                  height: 50,
-                  width: 150,
-                  backgroundColor: Colors.black87,
-                  textColor: Colors.white,
-                  text: "Sign In",
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => MainScreen(),
-                        ));
-                  },
-                ),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(width: 20),
+                  ActionButton(
+                    height: 50,
+                    width: 100,
+                    backgroundColor: Colors.white,
+                    textColor: Colors.black,
+                    text: "Sign In",
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => MainScreen(),
+                          ));
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
-                    "Don’t have an account??",
+                    "Don’t have an account?",
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
                         fontSize: 16,
+                        fontFamily: 'Poppins',
                         color: Colors.white),
                   ),
                 ],
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 ActionButton(
                     height: 50,

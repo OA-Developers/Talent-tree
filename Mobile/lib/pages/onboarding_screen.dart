@@ -13,22 +13,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final controller = PageController();
   final List<Map<String, String>> onboardingPages = [
     {
-      'image': 'assets/images/onboarding_img1.jpeg',
-      'title': 'Welcome to Talent Tree',
+      'image': 'assets/images/welcome1.png',
+      'title': 'Audition Updates',
       'description':
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          "Here We will provide you with regular updates about auditions helping you increase success in the highly competitive entertainment industry."
     },
     {
-      'image': 'assets/images/onboarding_img2.jpeg',
-      'title': 'Welcome to Talent Tree',
+      'image': 'assets/images/welcome2.png',
+      'title': 'About Courses',
       'description':
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-    },
-    {
-      'image': 'assets/images/onboarding_img3.jpeg',
-      'title': 'Welcome to Talent Tree',
-      'description':
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          "Talent Tree app not only provides regular updates about upcoming auditions but also offers a range of courses to help aspiring performers hone their skills. These courses are designed to provide trainning in various aspects of performing arts including action modelling and debate."
     },
   ];
   @override
@@ -55,11 +49,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           left: 0,
           right: 0,
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5),
             padding: const EdgeInsets.symmetric(vertical: 25),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.black.withOpacity(0.5),
             ),
             child: Column(
               children: [
@@ -72,12 +64,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  description,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white54,
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -120,13 +115,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPressed: () => controller.jumpToPage(2),
                   child: const Text(
                     "SKIP",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 3.0,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 8.0,
+                          color: Color.fromARGB(125, 0, 0, 255),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Center(
                   child: SmoothPageIndicator(
                     controller: controller,
-                    count: 3,
+                    count: 2,
                     effect: const WormEffect(
                         spacing: 16,
                         dotColor: Colors.black26,
@@ -155,7 +164,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                   child: const Text(
                     "NEXT",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 3.0,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        Shadow(
+                          offset: Offset(1.0, 1.0),
+                          blurRadius: 8.0,
+                          color: Color.fromARGB(125, 0, 0, 255),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

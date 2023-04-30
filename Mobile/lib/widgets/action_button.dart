@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
@@ -35,8 +36,12 @@ class ActionButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: Text(
-          text.toUpperCase(),
-          style: TextStyle(color: textColor, fontSize: 20),
+          text,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 20,
+            fontFamily: 'Poppins'
+          ),
         ),
       ),
     );

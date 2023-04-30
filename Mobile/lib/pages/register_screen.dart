@@ -44,24 +44,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade300,
       body: Padding(
-        padding: const EdgeInsets.only(top: 100, left: 10, right: 10),
+        padding: const EdgeInsets.only(top: 80, left: 10, right: 10),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 "assets/images/logo.png",
-                height: 80,
-                width: 80,
+                height: 60,
+                width: 60,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               const Text(
-                "Sign In",
+                "Sign Up",
                 style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
                     color: Colors.white),
               ),
               const SizedBox(height: 25),
@@ -73,50 +74,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
               LoginInputField(
                 hintText: 'Password',
                 controller: passwordController,
+                isPassword: true,
               ),
               const SizedBox(height: 25),
               LoginInputField(
                 hintText: 'Confirm Password',
                 controller: confirmPasswordController,
+                isPassword: true,
               ),
               const SizedBox(height: 15),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const SizedBox(
+                    width: 15,
+                  ),
                   Checkbox(
                     value: isChecked,
+                    checkColor: Colors.black87,
+                    fillColor: MaterialStateProperty.all(Colors.white),
+                    shape: CircleBorder(),
                     onChanged: (value) {
                       setState(() {
                         isChecked = value!;
                       });
                     },
                   ),
-                  const Text("I am 18 or above and i agree to the terms",
+                  const Flexible(
+                    child: Text(
+                      "I am 18 or above and i agree to the terms",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ActionButton(
-                  height: 50,
-                  width: 150,
-                  backgroundColor: Colors.black87,
-                  textColor: Colors.white,
-                  text: "Register",
-                  onPressed: () {
-                    // signupUser();
-                  },
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ActionButton(
+                    height: 50,
+                    width: 125,
+                    backgroundColor: Colors.white,
+                    textColor: Colors.black,
+                    text: "Register",
+                    onPressed: () {
+                      signupUser();
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
-                    "Already have an account??",
+                    "Already have an account?",
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Poppins',
                         fontSize: 16,
                         color: Colors.white),
                   ),
@@ -134,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => LoginScreen(),
+                            builder: (_) => const LoginScreen(),
                           ));
                     })
               ]),
