@@ -4,10 +4,12 @@ import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default function Login() {
     const navigate = useNavigate();
     const onFinish = (values) => {
-        axios.post('http://localhost:8000/admin/login', values)
+        axios.post(`${API_URL}/admin/login`, values)
             .then((response) => {
                 localStorage.setItem('user', response.data.token);
                 navigate("/")

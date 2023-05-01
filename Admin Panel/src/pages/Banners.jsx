@@ -10,7 +10,11 @@ const { Option } = Select;
 
 
 
+
+
 const Banners = () => {
+    const API_URL = process.env.REACT_APP_API_URL;
+    console.log(API_URL);
 
     const [form] = useForm();
     const [visible, setVisible] = useState(false);
@@ -21,7 +25,7 @@ const Banners = () => {
     useEffect(() => {
         const fetchBanners = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/banners');
+                const response = await axios.get(`${API_URL}/banners`);
                 setBanners(response.data);
             } catch (error) {
                 console.error('Error fetching banners:', error);
@@ -33,7 +37,7 @@ const Banners = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/banner/${id}`);
+            await axios.delete(`${API_URL}/banner/${id}`);
             setBanners(banners.filter((banner) => banner._id !== id));
             message.success('Banner deleted successfully');
         } catch (error) {
@@ -61,7 +65,7 @@ const Banners = () => {
         formData.append('file', file.originFileObj);
 
         try {
-            const response = await axios.post('http://localhost:8000/banner/upload', formData, {
+            const response = await axios.post(`${API_URL}/banner/upload`, formData, {
                 onUploadProgress: (progressEvent) => {
                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                     console.log('Upload progress:', percentCompleted);
