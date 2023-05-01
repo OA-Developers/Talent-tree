@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:talent_tree/pages/registration_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:talent_tree/widgets/video_thumbnail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,11 +13,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> _imageUrls = [
-    'https://picsum.photos/500/150',
-    'https://picsum.photos/500/150?grayscale',
-    'https://picsum.photos/500/150?blur=2',
-  ];
+  List<String> _imageUrls = [];
+  List<String> _videoUrls = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchBanners();
+  }
+
+  Future<void> _fetchBanners() async {
+    final response =
+        await http.get(Uri.parse('http://192.168.29.238:8000/banners'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      final List<String> imgurls = [];
+      final List<String> vidurls = [];
+
+      for (final banner in data) {
+        if (banner['type'] == "image") {
+          imgurls.add('http://192.168.29.238:8000/files/${banner['url']}');
+        } else {
+          vidurls.add('http://192.168.29.238:8000/files/${banner['url']}');
+        }
+      }
+
+      setState(() {
+        _imageUrls = imgurls;
+        _videoUrls = vidurls;
+      });
+    } else {
+      throw Exception('Failed to fetch banners');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +82,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 25),
                 CarouselSlider(
-                  items: _imageUrls.map((imageUrl) {
-                    return Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                    );
+                  items: _videoUrls.map((videoUrl) {
+                    return VideoThumbnail(videoUrl: videoUrl);
                   }).toList(),
                   options: CarouselOptions(
                     height: 200.0,

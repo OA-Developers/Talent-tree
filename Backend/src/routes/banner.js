@@ -23,9 +23,9 @@ const upload = multer({ storage: storage });
 
 bannerRouter.post('/banner/upload', upload.single('file'), async (req, res) => {
     const file = new Banner({
-        name: req.file.originalname,
+        name: req.body.title,
         size: req.file.size,
-        type: req.file.mimetype,
+        type: req.body.type,
         url: req.savedFilename,
     });
     await file.save();
@@ -38,6 +38,21 @@ bannerRouter.get('/banners', async (req, res) => {
     const banners = await Banner.find();
     res.json(banners);
 });
+
+bannerRouter.delete('/banner/:id', async (req, res) => {
+    try {
+        const banner = await Banner.findByIdAndDelete(req.params.id);
+        if (!banner) {
+            return res.status(404).json({ msg: 'Banner not found' });
+        }
+        res.json({ msg: 'Banner deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting banner:', error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+});
+
+
 
 bannerRouter.use('/files', express.static(path.join(__dirname, '../../public/banners')));
 
