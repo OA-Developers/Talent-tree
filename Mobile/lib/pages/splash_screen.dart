@@ -54,14 +54,14 @@ class _SplashScreenState extends State<SplashScreen> {
           controller: _chewieController,
         ),
       ),
-      bottomNavigationBar: const Padding(
-        padding: EdgeInsets.all(35),
-        child: Text(
-          "Talent Tree",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
+      // bottomNavigationBar: const Padding(
+      //   padding: EdgeInsets.all(35),
+      //   child: Text(
+      //     "Talent Tree",
+      //     textAlign: TextAlign.center,
+      //     style: TextStyle(fontSize: 16),
+      //   ),
+      // ),
     );
   }
 }

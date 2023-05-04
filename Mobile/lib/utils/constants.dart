@@ -1,3 +1,3 @@
 class Constants {
-  static const baseURL = "http://139.99.86.219:8000/";
+  static const baseURL = "https://talenttree.in:8000/";
 }

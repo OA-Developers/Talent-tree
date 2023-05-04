@@ -123,7 +123,7 @@ const Banners = () => {
                         <List.Item.Meta
                             avatar={
                                 <img className='h-24 w-36 object-cover'
-                                    src={`http://localhost:8000/files/${item.url}`}
+                                    src={`${API_URL}/files/${item.url}`}
                                 />
                             }
                             title={<a href='https://ant.design'>{item.name}</a>}

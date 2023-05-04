@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:talent_tree/pages/registration_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/widgets/video_thumbnail.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,8 +25,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchBanners() async {
-    final response =
-        await http.get(Uri.parse('http://192.168.29.238:8000/banners'));
+    final response = await http.get(Uri.parse('${Constants.baseURL}banners'));
+    print(response);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
@@ -34,9 +35,9 @@ class _HomePageState extends State<HomePage> {
 
       for (final banner in data) {
         if (banner['type'] == "image") {
-          imgurls.add('http://192.168.29.238:8000/files/${banner['url']}');
+          imgurls.add('${Constants.baseURL}files/${banner['url']}');
         } else {
-          vidurls.add('http://192.168.29.238:8000/files/${banner['url']}');
+          vidurls.add('${Constants.baseURL}files/${banner['url']}');
         }
       }
 

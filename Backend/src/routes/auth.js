@@ -5,6 +5,8 @@ const adminUser = require("../models/adminUser");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
 
+const auth = require("../middlewares/auth")
+
 // admin signin
 
 authRouter.post("/admin/login", async (req, res) => {
@@ -52,12 +54,7 @@ authRouter.post("/admin/signup", async (req, res) => {
 });
 
 
-
-
-
-
-
-
+// user routes
 
 authRouter.post("/api/signup", async (req, res) => {
   try {
@@ -105,5 +102,10 @@ authRouter.post("/api/signin", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
+authRouter.get("/", auth, async (req, res) => {
+  const user = await User.findById(req.user);
+  res.json({ ...user.doc, token: req.json })
+})
 
 module.exports = authRouter;

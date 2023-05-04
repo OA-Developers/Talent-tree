@@ -9,7 +9,7 @@ const bannerRouter = express.Router();
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "public");
+        cb(null, path.join(__dirname, "../../public"));
     },
     filename: function (req, file, cb) {
         const ext = file.mimetype.split("/")[1];
