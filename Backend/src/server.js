@@ -22,13 +22,13 @@ app.use(express.json());
 app.use(authRouter);
 app.use(bannerRouter);
 
-app.use((req, res, next) => {
-  if (req.secure) {
-    next();
-  } else {
-    res.redirect(`https://${req.headers.host}${req.url}`);
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.secure) {
+//     next();
+//   } else {
+//     res.redirect(`https://${req.headers.host}${req.url}`);
+//   }
+// });
 
 mongoose
   .connect(process.env.DATABASE_URL)
@@ -39,20 +39,20 @@ mongoose
     console.log(e);
   });
 
-const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/fullchain.pem')
-};
+// const options = {
+//   key: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/fullchain.pem')
+// };
 
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-//app.listen(PORT, () => {
-// console.log(`Server started on http://localhost:${PORT}`);
-//});
-
-https.createServer(options, app).listen(8000, () => {
-  console.log('Server listening on port 8000');
+app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT}`);
 });
+
+// https.createServer(options, app).listen(8000, () => {
+//   console.log('Server listening on port 8000');
+// });

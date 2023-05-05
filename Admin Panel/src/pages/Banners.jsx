@@ -9,18 +9,15 @@ import axios from 'axios';
 const { Option } = Select;
 
 
-
-
-
 const Banners = () => {
     const API_URL = process.env.REACT_APP_API_URL;
-    console.log(API_URL);
 
     const [form] = useForm();
     const [visible, setVisible] = useState(false);
     const [isCreating, setIsCreating] = useState(true);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [banners, setBanners] = useState([]);
+    const [type, setType] = useState("");
 
     useEffect(() => {
         const fetchBanners = async () => {
@@ -56,33 +53,58 @@ const Banners = () => {
     };
 
     const onFinish = async (values) => {
-        const { title, type, media } = values;
+        const { title, type, media, thumbnail } = values;
         const { file } = media;
-
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('type', type);
         formData.append('file', file.originFileObj);
 
-        try {
-            const response = await axios.post(`${API_URL}/banner/upload`, formData, {
-                onUploadProgress: (progressEvent) => {
-                    const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    console.log('Upload progress:', percentCompleted);
-                    setUploadProgress(percentCompleted);
-                },
-            });
-            console.log('Form submission successful:', response);
-            message.success('Banner uploaded successfully');
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            message.error('Error uploading banner');
+        if (type === 'image') {
+            formData.append('type', 'image');
+            console.log(formData);
+
+            try {
+                const response = await axios.post(`${API_URL}/banner/image/upload`, formData, {
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        console.log('Upload progress:', percentCompleted);
+                        setUploadProgress(percentCompleted);
+                    },
+                });
+                console.log('Form submission successful:', response);
+                message.success('Banner uploaded successfully');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                message.error('Error uploading banner');
+            }
+        } else if (type === 'video') {
+            const { file: thumbnailFile } = thumbnail;
+            formData.append('thumbnail', thumbnailFile.originFileObj);
+            formData.append('type', 'video');
+
+            console.log(formData);
+
+            try {
+                const response = await axios.post(`${API_URL}/banner/video/upload`, formData, {
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        console.log('Upload progress:', percentCompleted);
+                        setUploadProgress(percentCompleted);
+                    },
+                });
+                console.log('Form submission successful:', response);
+                message.success('Banner uploaded successfully');
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                message.error('Error uploading banner');
+            }
         }
 
         setVisible(false);
         form.resetFields();
         setUploadProgress(0);
     };
+
 
     return (
         <div className='p-5'>
@@ -123,10 +145,10 @@ const Banners = () => {
                         <List.Item.Meta
                             avatar={
                                 <img className='h-24 w-36 object-cover'
-                                    src={`${API_URL}/files/${item.url}`}
+                                    src={item.type === "video" ? `${API_URL}/thumbnails/${item.thumbnailUrl}` : `${API_URL}/files/${item.url}`}
                                 />
                             }
-                            title={<a href='https://ant.design'>{item.name}</a>}
+                            title={item.name}
                             description={item.type} />
                     </List.Item>
                 )}
@@ -154,21 +176,32 @@ const Banners = () => {
                         name="type"
                         rules={[{ required: true, message: 'Please select a category!' }]}
                     >
-                        <Select>
+                        <Select onChange={(value) => {
+                            // console.log(e.target.value)
+                            setType(value)
+                        }}>
                             <Option value="image">Image</Option>
                             <Option value="video">Video</Option>
                         </Select>
                     </Form.Item>
-
-                    <Form.Item label="Media" name="media">
+                    {type === 'video' && (
+                        <Form.Item label="Thumbnail" name="thumbnail"
+                            rules={[{ required: true, message: 'Please select a thumbnail!' }]}>
+                            <Upload accept="image/*">
+                                <Button icon={<UploadOutlined />}>Upload Thumbnail</Button>
+                            </Upload>
+                        </Form.Item>
+                    )}
+                    <Form.Item label="Media" name="media"
+                        rules={[{ required: true, message: 'Please select media file!' }]}>
                         <Upload accept="video/*,image/*">
                             <Button icon={<UploadOutlined />}>Upload Media File</Button>
                         </Upload>
                     </Form.Item>
                     {uploadProgress > 0 && <Progress percent={uploadProgress} />}
-
                 </Form>
             </Modal>
+
 
 
 

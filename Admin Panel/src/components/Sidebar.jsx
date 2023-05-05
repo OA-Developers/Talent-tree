@@ -10,7 +10,7 @@ import logo from "../assets/logo.png"
 export default function Sidebar() {
   return (
     <aside className="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r drop-shadow-md border-gray-300">
-      <Link to="/dashboard">
+      <Link to="/">
         <img
           className="w-full object-cover h-20"
           src={logo_h}
@@ -24,7 +24,7 @@ export default function Sidebar() {
         <nav>
           <Link
             className="flex items-center px-4 py-2 text-gray-700 rounded-md no::hover:bg-gray-800 no::hover:text-gray-200 no::text-gray-400 hover:text-gray-700 hover:bg-gray-100"
-            to="/Dashboard"
+            to="/"
           >
             <MdOutlineDashboard />
 
