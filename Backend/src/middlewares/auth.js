@@ -9,7 +9,10 @@ const auth = async (req, res, next) => {
         const verified = jwt.verify(token, "passwordKey")
         if (!verified)
             return res.status(401).json({ message: "Token is not verified" });
+        console.log(verified);
         req.user = verified.id
+        req.token = token
+        next();
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

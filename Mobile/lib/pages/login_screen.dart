@@ -50,10 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 15,
               ),
               Row(
-
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  SizedBox(width: 15,),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Text(
                     "Sign In",
                     style: TextStyle(
@@ -102,11 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Colors.black,
                     text: "Sign In",
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => MainScreen(),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (_) => MainScreen(),
+                      //     ));
+                      loginUser();
                     },
                   ),
                 ],

@@ -2,6 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talent_tree/pages/login_screen.dart';
+import 'package:talent_tree/pages/main_screen.dart';
 import 'package:talent_tree/pages/onboarding_screen.dart';
 import 'package:talent_tree/providers/user_provider.dart';
 import 'package:talent_tree/services/auth_services.dart';
@@ -21,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    authSerivce.getUserData(context);
 
+    authSerivce.getUserData(context);
     // Initialize the video player and chewie controller
     final videoPlayerController =
         VideoPlayerController.asset('assets/videos/splash_video.mp4');
@@ -37,16 +38,20 @@ class _SplashScreenState extends State<SplashScreen> {
     videoPlayerController.addListener(() {
       if (videoPlayerController.value.position ==
           videoPlayerController.value.duration) {
-        if (Provider.of<UserProvider>(context).user.token.isEmpty) {
+
+        if (Provider.of<UserProvider>(context, listen: false)
+            .user
+            .token
+            .isEmpty) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+            MaterialPageRoute(builder: (_) => const LoginScreen()),
             (route) => false,
           );
         } else {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
+            MaterialPageRoute(builder: (_) => const MainScreen()),
             (route) => false,
           );
         }

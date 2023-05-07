@@ -127,7 +127,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
-  res.json({ ...user.doc, token: req.token })
+  res.json({ ...user._doc, token: req.token })
 })
 
 

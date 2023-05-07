@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import "package:talent_tree/models/user.dart";
 import "package:http/http.dart" as http;
 import 'package:talent_tree/pages/main_screen.dart';
+import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/providers/user_provider.dart';
 import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/utils/utils.dart';
@@ -26,7 +27,7 @@ class AuthService {
         token: '',
       );
       http.Response res = await http.post(
-        Uri.parse('${Constants.baseURL}/api/signup'),
+        Uri.parse('${Constants.baseURL}api/signup'),
         body: user.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -54,8 +55,8 @@ class AuthService {
       );
       final navigator = Navigator.of(context);
       http.Response res = await http.post(
-          Uri.parse('${Constants.baseURL}/api/signin'),
-          body: jsonEncode({'email': email, password: password}),
+          Uri.parse('${Constants.baseURL}api/signin'),
+          body: jsonEncode({'email': email, 'password': password}),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           });
@@ -65,6 +66,7 @@ class AuthService {
           onSuccess: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             userProvider.setUser(res.body);
+
             await prefs.setString(
                 'x-auth-token', jsonDecode(res.body)['token']);
             navigator.pushAndRemoveUntil(
@@ -111,5 +113,14 @@ class AuthService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+  }
+
+  void signOut(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('x-auth-token', '');
+    navigator.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const RegisterScreen()),
+        (route) => false);
   }
 }

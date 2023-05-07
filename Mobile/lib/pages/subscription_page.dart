@@ -14,13 +14,14 @@ class SubscriptionCard extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
 
-  const SubscriptionCard(
-      {super.key,
-      required this.duration,
-      required this.discountedPrice,
-      required this.price,
-      required this.buttonText,
-      required this.onPressed});
+  const SubscriptionCard({
+    Key? key,
+    required this.duration,
+    required this.discountedPrice,
+    required this.price,
+    required this.buttonText,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +32,9 @@ class SubscriptionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: 150,
-          height: 175,
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5),
+        child: FractionallySizedBox(
+          widthFactor: 0.8,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,7 +42,7 @@ class SubscriptionCard extends StatelessWidget {
               Text(
                 duration,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'Poppins',
                   color: Colors.white,
@@ -51,7 +51,7 @@ class SubscriptionCard extends StatelessWidget {
               Text(
                 '₹ $discountedPrice',
                 style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                   color: Colors.white,
@@ -60,26 +60,31 @@ class SubscriptionCard extends StatelessWidget {
               Text(
                 '₹ $price',
                 style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    decoration: TextDecoration.lineThrough),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  decoration: TextDecoration.lineThrough,
+                ),
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: onPressed,
-                style: ButtonStyle(
+              SizedBox(
+                width: 150, // set the desired width
+                child: ElevatedButton(
+                  onPressed: onPressed,
+                  style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black54),
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 5))),
-                child: Text(
-                  buttonText,
-                  style: TextStyle(fontFamily: 'Poppins'),
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                    ),
+                  ),
+                  child: Text(
+                    buttonText,
+                    style: TextStyle(fontFamily: 'Poppins', fontSize: 12),
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),
@@ -199,22 +204,26 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubscriptionCard(
-                          duration: "1 Month",
-                          discountedPrice: "49",
-                          price: "150",
-                          buttonText: "Subscribe",
-                          onPressed: () {},
+                        Expanded(
+                          child: SubscriptionCard(
+                            duration: "1 Month",
+                            discountedPrice: "49",
+                            price: "150",
+                            buttonText: "Subscribe",
+                            onPressed: () {},
+                          ),
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        SubscriptionCard(
-                          duration: "3 Month",
-                          discountedPrice: "149",
-                          price: "350",
-                          buttonText: "Subscribe",
-                          onPressed: () {},
+                        Expanded(
+                          child: SubscriptionCard(
+                            duration: "3 Month",
+                            discountedPrice: "149",
+                            price: "350",
+                            buttonText: "Subscribe",
+                            onPressed: () {},
+                          ),
                         ),
                       ],
                     ),
@@ -224,22 +233,26 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SubscriptionCard(
-                          duration: "6 Month",
-                          discountedPrice: "249",
-                          price: "450",
-                          buttonText: "Subscribe",
-                          onPressed: () {},
+                        Expanded(
+                          child: SubscriptionCard(
+                            duration: "6 Month",
+                            discountedPrice: "249",
+                            price: "450",
+                            buttonText: "Subscribe",
+                            onPressed: () {},
+                          ),
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        SubscriptionCard(
-                          duration: "1 Year",
-                          discountedPrice: "449",
-                          price: "850",
-                          buttonText: "Subscribe",
-                          onPressed: () {},
+                        Expanded(
+                          child: SubscriptionCard(
+                            duration: "1 Year",
+                            discountedPrice: "449",
+                            price: "850",
+                            buttonText: "Subscribe",
+                            onPressed: () {},
+                          ),
                         ),
                       ],
                     )

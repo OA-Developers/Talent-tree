@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:talent_tree/pages/login_screen.dart';
 import 'package:talent_tree/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:talent_tree/services/auth_services.dart';
+import 'package:talent_tree/utils/utils.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -30,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  user.email,
+                  user.name,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -105,7 +109,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.blue.shade900),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showSnackBar(context, 'Logged Out Successfully!');
+                  authService.signOut(context);
+                },
                 label: const Text("Logout",
                     style: TextStyle(color: Colors.white, fontSize: 18)),
               )

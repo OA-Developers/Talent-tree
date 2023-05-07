@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String,
   },
-  
+
   subscription: {
     type: subscriptionSchema,
     default: null,
