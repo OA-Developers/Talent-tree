@@ -1,60 +1,89 @@
-import React, { useState } from 'react'
-import { Avatar, List, Form, Input, Select, Modal } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Avatar, List, Form, Input, Select, Modal, message, Progress } from 'antd';
 import { Button, Row, Col, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { FaPlus } from 'react-icons/fa';
 import { useForm } from 'antd/es/form/Form';
+import axios from 'axios';
 
 const { Option } = Select;
 
-const data = [
-    {
-        key: '1',
-        title: 'Opening',
-        category: 'TV',
-        description: 'Demo Description',
-    },
-    {
-        key: '2',
-        name: 'John Doe',
-        description: 'Demo Descriotion',
-        category: 'Ads',
-    },
-    {
-        key: '3',
-        title: 'Opening',
-        description: 'Demo Descriotion',
-        category: 'Web',
-    },
-    {
-        key: '4',
-        title: 'Opening',
-        description: 'Demo Descriotion',
-        category: 'Movies',
-    },
-];
+
 
 const Audience = () => {
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const [form] = useForm();
     const [visible, setVisible] = useState(false);
     const [isCreating, setIsCreating] = useState(true);
+    const [uploadProgress, setUploadProgress] = useState(0);
+
+
+    const [data, setData] = useState([]);
 
     const handleEdit = () => {
         setVisible(true);
     };
+
+    const fetchListings = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/openings`);
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching debates:', error);
+        }
+    }
+    useEffect(() => {
+        fetchListings();
+    }, [])
 
     const handleCancel = () => {
         form.resetFields()
         setVisible(false);
 
     };
+    const handleDelete = () => {
 
-    const onFinish = (values) => {
-        // Handle According to isCreating 
-        console.log('Received values of form: ', values);
-        setVisible(false);
+    };
+
+    const onFinish = async (values) => {
         form.resetFields();
+        try {
+            const { title, description, source, category, location, image, email, whatsAppNumber } = values;
+            const { file } = image;
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('source', source);
+            formData.append('category', category);
+            formData.append('location', location);
+            formData.append('email', email);
+            formData.append('whatsAppNumber', whatsAppNumber);
+            formData.append('image', file.originFileObj);
+            const
+                response = await axios.post(`${API_URL}/opening`, formData, {
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        console.log('Upload progress:', percentCompleted);
+                        setUploadProgress(percentCompleted);
+                    }
+                });
+
+            if (response.status === 200) {
+                message.success('Added successfully');
+                setVisible(false);
+                form.resetFields()
+            } else {
+                message.error('Failed to add');
+                form.resetFields()
+                setVisible(false);
+            }
+        } catch (error) {
+            console.error('Error adding:', error);
+            message.error('Failed to add');
+            setVisible(false);
+
+        }
     };
 
     return (
@@ -77,87 +106,101 @@ const Audience = () => {
                 renderItem={(item) => (
                     <List.Item
                         actions={[
-                            <button
-                                className='py-2 px-3 border border-black flex justify-center items-center rounded-lg gap-1 text-gray-500 cursor-pointer'
-                                key='list-loadmore-edit'
-                                onClick={handleEdit}
+                            <Button
+                                className='bg-blue-400 rounded-lg text-white hover:text-white active:text-white'
+                                key="list-edit"
+                                onClick={() => handleEdit(item._id)}
                             >
                                 Edit
-                            </button>,
-                            <button
-                                className='py-2 px-3 border border-red-500 flex justify-center items-center rounded-lg gap-1 text-gray-500 cursor-pointer'
-                                key='list-loadmore-more'
+                            </Button>,
+                            <Button
+                                className='bg-red-400 rounded-lg text-white hover:text-white'
+                                key="list-delete"
+                                onClick={() => handleDelete(item._id)}
                             >
                                 Delete
-                            </button>,
+                            </Button>,
                         ]}
+                        className="border shadow-sm rounded-lg border-gray-200 py-4 m-2"
                     >
                         <List.Item.Meta
-                            avatar={
-                                <Avatar
-                                    src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${item.key}`}
-                                />
-                            }
-                            title={<a href='https://ant.design'>{item.title}</a>}
-                            description='Ant Design, a design langudescription for background applications, is refined by Ant UED Team'
+                            avatar={<img src={`${API_URL}/${item.imageUrl}`} alt={item.title} />}
+                            title={item.title}
+                            description={item.description}
+                            className="flex items-center"
                         />
+                        <div className="ml-auto text-right">
+                            <p className="text-gray-500">Source: {item.source}</p>
+                            <p className="text-gray-500">Category: {item.category}</p>
+                            <p className="text-gray-500">Location: {item.location}</p>
+                            <p className="text-gray-500">Email: {item.email}</p>
+                            <p className="text-gray-500">WhatsApp Number: {item.whatsAppNumber}</p>
+                        </div>
                     </List.Item>
                 )}
             />
             <Modal
                 title={isCreating ? "Add a Item" : "Edit Item"}
                 onCancel={handleCancel}
-                onOk={onFinish}
+                onOk={() => form.submit()}
                 // confirmLoading={loading}
                 visible={visible}
                 okText="Save"
                 okButtonProps={{ style: { backgroundColor: '#00BFFF' } }}
                 cancelText="Cancel"
             >
-                <Form form={form} layout="vertical" initialValues={{ category: 'TV' }}>
-                    <Form.Item
-                        label="Title"
+                <Form form={form} onFinish={onFinish} layout="vertical" initialValues={{ category: 'TV' }}>
+                    <Form.Item label="Title"
                         name="title"
-                        rules={[{ required: true, message: 'Please enter a title!' }]}
-                    >
+                        rules={[{ required: true, message: 'Please input the title!' }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        label="Category"
+                    <Form.Item label="Description"
+                        name="description"
+                        rules={[{ required: true, message: 'Please input the description!' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="Source"
+                        name="source"
+                        rules={[{ required: true, message: 'Please input the source!' }]}>
+                        <Input placeholder='TT IN HOUSE' />
+                    </Form.Item>
+                    <Form.Item label="Category"
                         name="category"
-                        rules={[{ required: true, message: 'Please select a category!' }]}
-                    >
+                        rules={[{ required: true, message: 'Please select the category!' }]}>
                         <Select>
-                            <Option value="TV">TV</Option>
-                            <Option value="Ads">Ads</Option>
-                            <Option value="Web">Web</Option>
-                            <Option value="Movies">Movies</Option>
+                            <Option default value="tv">TV SHOW</Option>
+                            <Option value="web">WEB/MOVIE</Option>
+                            <Option value="ads">AD SHOOTS</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item
-                        label="Location"
+                    <Form.Item label="Location"
                         name="location"
-                        rules={[{ required: true, message: 'Please enter a title!' }]}
-                    >
+                        rules={[{ required: true, message: 'Please enter the location' }]}>
                         <Input />
+
                     </Form.Item>
-                    <Form.Item
-                        label="Description"
-                        name="description"
-                        rules={[{ required: true, message: 'Please enter a description!' }]}
-                    >
-                        <Input.TextArea rows={4} />
+                    <Form.Item label="Email"
+                        name="email"
+                        rules={[{ required: true, message: 'Please enter the email !' }]}>
+                        <Input type='email' />
+
                     </Form.Item>
-                    <Form.Item label="Logo Image" name="logoImage">
-                        <Upload>
-                            <Button icon={<UploadOutlined />}>Upload Logo Image</Button>
+                    <Form.Item label="WhatsApp Number"
+                        name="whatsAppNumber"
+                        rules={[{ required: true, message: 'Please enter the whatsapp number !' }]}>
+                        <Input type='number' />
+
+                    </Form.Item>
+                    <Form.Item label="Image"
+                        name="image"
+                        rules={[{ required: true, message: 'Please select the image file!' }]}>
+                        <Upload accept="image/*">
+                            <Button>Choose File</Button>
                         </Upload>
                     </Form.Item>
-                    <Form.Item label="Banner Image" name="bannerImage">
-                        <Upload>
-                            <Button icon={<UploadOutlined />}>Upload Banner Image</Button>
-                        </Upload>
-                    </Form.Item>
+                    {uploadProgress > 0 && <Progress percent={uploadProgress} />}
+
                 </Form>
             </Modal>
 

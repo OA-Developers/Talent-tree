@@ -12,6 +12,7 @@ import LoginPage from "./pages/Login";
 import Notification from "./components/Notification";
 import Audience from "./pages/Audience";
 import Banners from "./pages/Banners";
+import Debate from "./pages/Debate";
 
 function ProtectedRoutes() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -45,6 +46,7 @@ function ProtectedRoutes() {
           <Route path="/subscriptionform" element={<Subscriptionform />} />
           <Route path="/startstream" element={<Startstream />} />
           <Route path="/revenue" element={<Revenue />} />
+          <Route path="/debates" element={<Debate />} />
         </Routes>
       </div>
     </div>

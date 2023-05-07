@@ -3,12 +3,13 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 
 class VideoPlayer extends StatefulWidget {
-  // constVideoPlayer({super.key});
   final String videoUrl;
-  final String description;
 
-  const VideoPlayer(
-      {super.key, required this.videoUrl, required this.description});
+  const VideoPlayer({
+    Key? key,
+    required this.videoUrl,
+  }) : super(key: key);
+
   @override
   State<VideoPlayer> createState() => VideoPlayerState();
 }
@@ -40,25 +41,36 @@ class VideoPlayerState extends State<VideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: OrientationBuilder(
-        builder: (BuildContext context, Orientation orientation) {
-          return orientation == Orientation.portrait
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: _videoPlayerController.value.aspectRatio,
-                      child: Chewie(
-                        controller: _chewieController,
-                      ),
-                    )
-                  ],
-                )
-              : Chewie(
-                  controller: _chewieController,
-                );
-        },
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Home Videos'),
+      ),
+      body: Column(
+        children: [
+          AspectRatio(
+            aspectRatio: _videoPlayerController.value.aspectRatio,
+            child: Chewie(
+              controller: _chewieController,
+            ),
+          ),
+          SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.fullscreen),
+                onPressed: () {
+                  _chewieController.enterFullScreen();
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:talent_tree/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,6 +12,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Padding(
       padding: EdgeInsets.only(top: 50),
       child: Column(
@@ -19,16 +22,16 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 200,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                CircleAvatar(
+              children: [
+                const CircleAvatar(
                   radius: 50,
                   backgroundImage: AssetImage('assets/images/web.jpeg'),
                   backgroundColor: Colors.white,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
-                  'John Doe',
-                  style: TextStyle(
+                  user.email,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),

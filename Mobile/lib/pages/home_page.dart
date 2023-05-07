@@ -1,11 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:talent_tree/pages/registration_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:talent_tree/utils/constants.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:talent_tree/widgets/video_player.dart';
+import 'package:talent_tree/widgets/video_thumbnail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,9 +14,16 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+class VideoData {
+  final String videoUrl;
+  final String thumbnailUrl;
+
+  VideoData({required this.videoUrl, required this.thumbnailUrl});
+}
+
 class _HomePageState extends State<HomePage> {
   List<String> _imageUrls = [];
-  List<String> _videoUrls = [];
+  List<VideoData> _videos = [];
 
   @override
   void initState() {
@@ -25,37 +32,29 @@ class _HomePageState extends State<HomePage> {
     _fetchBanners();
   }
 
-  Future<Uint8List> getThumbnail(String videoUrl) async {
-    final uint8list = await VideoThumbnail.thumbnailData(
-      video: videoUrl,
-      imageFormat: ImageFormat.JPEG,
-      maxWidth:
-          128, // specify the width of the thumbnail, let the height auto-scaled to keep the aspect ratio
-      quality: 25,
-    );
-    return uint8list!;
-  }
-
   Future<void> _fetchBanners() async {
     final response = await http.get(Uri.parse('${Constants.baseURL}banners'));
-    print(response);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
       final List<String> imgurls = [];
-      final List<String> vidurls = [];
+      final List<VideoData> vidurls = [];
 
       for (final banner in data) {
         if (banner['type'] == "image") {
           imgurls.add('${Constants.baseURL}files/${banner['url']}');
         } else {
-          vidurls.add('${Constants.baseURL}files/${banner['url']}');
+          vidurls.add(VideoData(
+            videoUrl: '${Constants.baseURL}files/${banner['url']}',
+            thumbnailUrl:
+                '${Constants.baseURL}thumbnails/${banner['thumbnailUrl']}',
+          ));
         }
       }
 
       setState(() {
         _imageUrls = imgurls;
-        _videoUrls = vidurls;
+        _videos = vidurls;
       });
     } else {
       throw Exception('Failed to fetch banners');
@@ -95,17 +94,21 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 25),
                 CarouselSlider(
-                  items: _videoUrls.map((videoUrl) {
-                    return FutureBuilder(
-                      future: getThumbnail(videoUrl),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<Uint8List> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return Image.memory(snapshot.data!);
-                        } else {
-                          return CircularProgressIndicator();
-                        }
+                  items: _videos.map((video) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                VideoPlayer(videoUrl: video.videoUrl),
+                          ),
+                        );
                       },
+                      child: Image.network(
+                        video.thumbnailUrl,
+                        fit: BoxFit.cover,
+                      ),
                     );
                   }).toList(),
                   options: CarouselOptions(

@@ -1,5 +1,20 @@
 const mongoose = require("mongoose");
 
+const subscriptionSchema = mongoose.Schema({
+  plan: {
+    type: String,
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+});
+
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -19,6 +34,11 @@ const userSchema = mongoose.Schema({
   password: {
     required: true,
     type: String,
+  },
+  
+  subscription: {
+    type: subscriptionSchema,
+    default: null,
   },
 });
 

@@ -11,11 +11,6 @@ class AudiencePage extends StatefulWidget {
 }
 
 class _AudiencePageState extends State<AudiencePage> {
-  List<String> _imageUrls = [
-    'https://picsum.photos/500/150',
-    'https://picsum.photos/500/150?grayscale',
-    'https://picsum.photos/500/150?blur=2',
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,12 +21,13 @@ class _AudiencePageState extends State<AudiencePage> {
           padding: const EdgeInsets.only(top: 50),
           child: IntrinsicWidth(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
                     child: Card(
+                      color: Color.fromARGB(255, 28, 28, 39),
                       child: InkWell(
                         onTap: () {
                           // Perform action when TV Shows tile is tapped.
@@ -44,33 +40,13 @@ class _AudiencePageState extends State<AudiencePage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/tv.jpeg"),
-                                fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/tv_shows_banner.png'),
+                                fit: BoxFit.fitWidth,
                               ),
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(
-                                      Icons.tv,
-                                      size: 48.0,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(height: 16.0),
-                                    Text("TV Shows",
-                                        style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'Poppins',
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),
@@ -79,37 +55,26 @@ class _AudiencePageState extends State<AudiencePage> {
                   ),
                   Expanded(
                     child: Card(
+                      color: Color.fromARGB(255, 28, 28, 39),
                       child: InkWell(
                         onTap: () {
                           // Perform action when Movies tile is tapped.
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => OpeningListScreen(),
+                              ));
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/movies.jpeg"),
-                                fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/movie_banner.png'),
+                                fit: BoxFit.fitWidth,
                               ),
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(Icons.movie,
-                                        size: 48.0, color: Colors.white),
-                                    SizedBox(height: 16.0),
-                                    Text("Movies",
-                                        style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'Poppins',
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),
@@ -118,37 +83,26 @@ class _AudiencePageState extends State<AudiencePage> {
                   ),
                   Expanded(
                     child: Card(
+                      color: Color.fromARGB(255, 28, 28, 39),
                       child: InkWell(
                         onTap: () {
-                          // Perform action when Movies tile is tapped.
+                          // Perform action when Web & Ads tile is tapped.
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => OpeningListScreen(),
+                              ));
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage("assets/images/web.jpeg"),
-                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    'assets/images/ad_shoot_banner.png'),
+                                fit: BoxFit.fitWidth,
                               ),
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(Icons.web,
-                                        size: 48.0, color: Colors.white),
-                                    SizedBox(height: 16.0),
-                                    Text("Web & Ads",
-                                        style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'Poppins',
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),

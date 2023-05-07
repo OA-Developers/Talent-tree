@@ -4,6 +4,7 @@ import 'package:talent_tree/pages/course_page.dart';
 import 'package:talent_tree/pages/debate_page.dart';
 import 'package:talent_tree/pages/home_page.dart';
 import 'package:talent_tree/pages/profile_page.dart';
+import 'package:talent_tree/pages/subscription_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
-    const AudiencePage(),
+    const SubscriptionPage(),
     const DebatePage(),
     const CoursePage(),
     const ProfilePage()

@@ -3,12 +3,19 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 
 class DebateDetailsScreen extends StatefulWidget {
-  // const DebateDetailsScreen({super.key});
-  final String videoUrl;
+  final String title;
   final String description;
+  final String type;
+  final String videoUrl;
 
- const DebateDetailsScreen(
-      {super.key, required this.videoUrl, required this.description});
+  const DebateDetailsScreen({
+    Key? key,
+    required this.title,
+    required this.description,
+    required this.type,
+    required this.videoUrl,
+  }) : super(key: key);
+
   @override
   State<DebateDetailsScreen> createState() => _DebateDetailsScreenState();
 }
@@ -23,7 +30,7 @@ class _DebateDetailsScreenState extends State<DebateDetailsScreen> {
     _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
-      aspectRatio: _videoPlayerController.value.aspectRatio,
+      aspectRatio: 16 / 9, // Set the aspect ratio to 16:9
       autoPlay: true,
       looping: false,
       allowMuting: true,
@@ -41,41 +48,42 @@ class _DebateDetailsScreenState extends State<DebateDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Debate Details"),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(Icons.arrow_back),
-          )),
-      body: OrientationBuilder(
-        builder: (BuildContext context, Orientation orientation) {
-          return orientation == Orientation.portrait
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: _videoPlayerController.value.aspectRatio,
-                      child: Chewie(
-                        controller: _chewieController,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.description,
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Chewie(
-                  controller: _chewieController,
-                );
-        },
+        title:  Text(widget.title),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9, // Set the aspect ratio to 16:9
+            child: Chewie(
+              controller: _chewieController,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.title,
+              style: const TextStyle(fontSize: 20, color: Colors.black87),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.description,
+                  style: const TextStyle(fontSize: 16, color: Colors.black54),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
