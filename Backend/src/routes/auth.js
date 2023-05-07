@@ -9,6 +9,10 @@ const auth = require("../middlewares/auth")
 
 // admin signin
 
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 authRouter.post("/admin/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -19,9 +23,7 @@ authRouter.post("/admin/login", async (req, res) => {
       });
     }
 
-
     if (user.password !== password) {
-      console.log(user, password, user.password);
       return res.status(400).json({ msg: "Incorrect password" });
     }
     const token = jwt.sign({ id: user._id }, "passwordKey");
@@ -59,6 +61,7 @@ authRouter.post("/admin/signup", async (req, res) => {
 authRouter.post("/api/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
+    const name = `Talent${getRandomNumber(1, 10000)}`
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -69,6 +72,7 @@ authRouter.post("/api/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 8);
 
     let user = new User({
+      name,
       email,
       password: hashedPassword,
     });
@@ -91,13 +95,14 @@ authRouter.post("/api/signin", async (req, res) => {
       });
     }
 
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({ msg: "Incorrect password" });
     }
     const token = jwt.sign({ id: user._id }, "passwordKey");
-    res.json({ token, ...user._doc });
+    return res.json({ token, ...user._doc });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -122,7 +127,12 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
-  res.json({ ...user.doc, token: req.json })
+  res.json({ ...user.doc, token: req.token })
 })
+
+
+
+// Usage example:// prints a random number between 1 and 100
+
 
 module.exports = authRouter;

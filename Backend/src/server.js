@@ -29,20 +29,20 @@ app.use(bannerRouter);
 app.use(debateRouter);
 app.use(actingOpeningRouter);
 
-if (process.env.PRODUCTION) {
+// if (process.env.PRODUCTION) {
 
-  app.use((req, res, next) => {
-    if (req.secure) {
-      next();
-    } else {
-      res.redirect(`https://${req.headers.host}${req.url}`);
-    }
-  });
-  const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/fullchain.pem')
-  };
-}
+//   app.use((req, res, next) => {
+//     if (req.secure) {
+//       next();
+//     } else {
+//       res.redirect(`https://${req.headers.host}${req.url}`);
+//     }
+//   });
+//   const options = {
+//     key: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/privkey.pem'),
+//     cert: fs.readFileSync('/etc/letsencrypt/live/talenttree.in/fullchain.pem')
+//   };
+// }
 
 
 
@@ -60,15 +60,15 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-if (process.env.PRODUCTION) {
+// if (process.env.PRODUCTION) {
 
-  https.createServer(options, app).listen(8000, () => {
-    console.log('Server listening on port 8000');
-  });
-} else {
+  // https.createServer(options, app).listen(8000, () => {
+  //   console.log('Server listening on port 8000');
+  // });
+// } else {
 
   app.listen(PORT, () => {
     console.log(`Server started on http://localhost:${PORT}`);
   });
-}
+// }
 
