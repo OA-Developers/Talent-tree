@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talent_tree/pages/audience_page.dart';
+import 'package:talent_tree/pages/coupons_page.dart';
 import 'package:talent_tree/pages/course_page.dart';
 import 'package:talent_tree/pages/debate_page.dart';
 import 'package:talent_tree/pages/home_page.dart';
 import 'package:talent_tree/pages/profile_page.dart';
+import 'package:talent_tree/pages/registration_screen.dart';
 import 'package:talent_tree/pages/subscription_page.dart';
+import 'package:talent_tree/utils/utils.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,16 +21,33 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
-    const SubscriptionPage(),
+    const CouponsPage(),
     const DebatePage(),
     const CoursePage(),
     const ProfilePage()
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void _onItemTapped(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? registered = prefs.getBool('registered');
+    if (index == 1) {
+      if (registered == null) {
+        showSnackBar(context, 'Please Complete Registration First!');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const RegistrationScreen()),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CouponsPage()),
+        );
+      }
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
