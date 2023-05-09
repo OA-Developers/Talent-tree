@@ -24,7 +24,7 @@ const Debate = () => {
                 const response = await axios.get(`${API_URL}/debates`);
                 setDebates(response.data);
             } catch (error) {
-                console.error('Error fetching debates:', error);
+                message.error('Error fetching debates:', error);
             }
         };
 

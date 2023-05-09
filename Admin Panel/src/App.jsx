@@ -3,7 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
 import Transaction from "./pages/Transaction";
 import Users from "./pages/Users";
-import Subscription1 from "./pages/Subscription1";
+import Subscription1 from "./pages/Subscription";
 import Subscriptionform from "./pages/Subscriptionform";
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import Startstream from "./pages/Startstream";
@@ -13,6 +13,7 @@ import Notification from "./components/Notification";
 import Audience from "./pages/Audience";
 import Banners from "./pages/Banners";
 import Debate from "./pages/Debate";
+import Subscription from "./pages/Subscription";
 
 function ProtectedRoutes() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -42,7 +43,7 @@ function ProtectedRoutes() {
           <Route path="/audience" element={<Audience />} />
           <Route path="/banners" element={<Banners />} />
           <Route path="/transactions" element={<Transaction />} />
-          <Route path="/subscription" element={<Subscription1 />} />
+          <Route path="/subscription" element={<Subscription />} />
           <Route path="/subscriptionform" element={<Subscriptionform />} />
           <Route path="/startstream" element={<Startstream />} />
           <Route path="/revenue" element={<Revenue />} />
