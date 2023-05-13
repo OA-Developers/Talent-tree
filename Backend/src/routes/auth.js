@@ -129,12 +129,15 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
   const registration = await Registration.findOne({ userId: req.user });
+
+  if (!registered)
+    registered = false
   const isSubscribed = user.subscription !== null;
   const response = {
     ...user._doc,
     token: req.token,
     isSubscribed,
-    isRegistered: !!registration,
+    isRegistered: registration,
   };
 
   res.json(response);
