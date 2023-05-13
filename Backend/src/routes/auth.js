@@ -130,8 +130,8 @@ authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
   const registration = await Registration.findOne({ userId: req.user });
 
-  if (!registered)
-    registered = false
+  if (!registration)
+    registration = false
   const isSubscribed = user.subscription !== null;
   const response = {
     ...user._doc,
