@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talent_tree/pages/registration_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:talent_tree/providers/user_provider.dart';
 import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/widgets/video_player.dart';
 import 'package:talent_tree/widgets/video_thumbnail.dart';
@@ -24,12 +27,24 @@ class VideoData {
 class _HomePageState extends State<HomePage> {
   List<String> _imageUrls = [];
   List<VideoData> _videos = [];
+  bool showButton = true;
 
   @override
   void initState() {
     super.initState();
+    toggleVisibleRegister();
 
     _fetchBanners();
+  }
+
+  toggleVisibleRegister() async {
+    bool registered =
+        Provider.of<UserProvider>(context, listen: false).isRegistered;
+    if (registered) {
+      setState(() {
+        showButton = false;
+      });
+    }
   }
 
   Future<void> _fetchBanners() async {
@@ -67,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         body: SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(top: 0),
         child: SingleChildScrollView(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -124,32 +139,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const RegistrationScreen()));
-                  },
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 10.0),
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                Visibility(
+                  visible: showButton,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const RegistrationScreen()));
+                    },
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 10.0),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
                       ),
                     ),
+                    child: const Text('Register Now',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1,
+                            fontFamily: 'Poppins')),
                   ),
-                  child: const Text('Register Now',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1,
-                          fontFamily: 'Poppins')),
                 ),
                 const SizedBox(height: 25),
                 Row(

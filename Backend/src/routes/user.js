@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
+const Coupon = require("../models/coupon");
 const Registration = require("../models/registration");
 const jwt = require("jsonwebtoken");
 const auth = require("../middlewares/auth");
@@ -50,15 +51,15 @@ userRouter.get("/checkSubscribed", auth, async (req, res) => {
         const userId = req.user;
         const user = await User.findById(userId);
         if (user.subscription === null) {
-            res.sendStatus(403);
+            res.status(403).json({ message: 'You are not subscribed to any plan' });
         } else {
             const currentDate = new Date();
             const endDate = new Date(user.subscription.endDate);
             if (currentDate > endDate) {
                 await User.findByIdAndUpdate(userId, { subscription: null });
-                res.sendStatus(403);
+                res.status(403).json({ message: 'Your subscription has expired' });
             } else {
-                res.sendStatus(200);
+                res.status(200).json({ message: 'You are currently subscribed to a plan' });
             }
         }
     } catch (error) {
@@ -66,6 +67,39 @@ userRouter.get("/checkSubscribed", auth, async (req, res) => {
         res.sendStatus(500);
     }
 });
+
+userRouter.post("/subscribe", auth, async (req, res) => {
+    try {
+        const userId = req.user;
+        const { duration } = req.body;
+        const user = await User.findById(userId);
+        if (user.subscription === null) {
+            const endDate = new Date(Date.now() + duration * 24 * 60 * 60 * 1000);
+            await User.updateOne(
+                { _id: userId },
+                {
+                    $set: {
+                        subscription: {
+                            plan: "basic", // Update the plan type as required
+                            startDate: new Date(),
+                            endDate: endDate,
+                        },
+                    },
+                }
+            );
+            res.status(200).json({ msg: "Successfully subscribed to the plan" });
+        } else {
+            res
+                .status(400)
+                .json({ msg: "You already have an active subscription" });
+        }
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+
 
 userRouter.post("/register", auth, upload.fields([{ name: 'audio', maxCount: 1 }, { name: 'video', maxCount: 1 }, { name: 'image', maxCount: 1 }, { name: 'docs', maxCount: 1 }]), async (req, res) => {
     try {
@@ -110,6 +144,28 @@ userRouter.post("/register", auth, upload.fields([{ name: 'audio', maxCount: 1 }
     } catch (error) {
         console.error("Error registering:", error);
         res.sendStatus(500);
+    }
+});
+
+userRouter.post('/apply-coupon', async (req, res) => {
+    try {
+        const { code } = req.body;
+        console.log(code);
+
+        // Find the coupon in the database
+        const coupon = await Coupon.findOne({ code });
+
+        // Check if the coupon exists and is not expired
+        const now = new Date();
+        if (!coupon || coupon.expiry < now) {
+            return res.status(400).json({ msg: 'Invalid coupon code' });
+        }
+
+        // Return the discount amount
+        res.status(200).json({ discount: coupon.discount });
+    } catch (err) {
+        console.error("Error applying coupon:", err);
+        res.status(500).json({ msg: "Server error" });
     }
 });
 

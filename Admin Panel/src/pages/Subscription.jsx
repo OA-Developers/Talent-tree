@@ -87,18 +87,26 @@ export default function Subscription() {
 
     try {
 
-      const { price, duration } = values;
-      const response = await axios.post(`${API_URL}/plans`, { price, duration });
+      const { price, mrp, duration } = values;
+      const response = await axios.post(`${API_URL}/plans`, { price, mrp, duration });
       if (response.status === 200) {
         message.success("Plan created successfully");
         fetchPlans();
+        setIsModalVisible(false);
+        form.resetFields()
+
       } else {
         message.error('Failed to create plan');
         form.resetFields()
+        setIsModalVisible(false);
+        form.resetFields()
+
       }
     } catch (e) {
       message.error("Error creating plan:", e);
       message.error('Failed to create plan');
+      setIsModalVisible(false);
+      form.resetFields()
 
     }
   }
@@ -106,7 +114,7 @@ export default function Subscription() {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div div className='flex flex-col justify-center gap-5 m-5' >
+    <div className='flex flex-col justify-center gap-5 m-5' >
       <Row>
 
         <Col xs={24} sm={12} md={8} lg={6}>
@@ -133,6 +141,7 @@ export default function Subscription() {
                 <div type="text" className="absolute top-2 text-red-600 text-xl bg-white cursor-pointer rounded-full right-2" onClick={() => handleDeletePlan(plan._id)}><MdDelete /></div>
                 <div className='text-2xl text-white font-serif font-semibold'>{convertDays(plan.duration)}</div>
                 <div className='text-xl font-serif font-semibold text-white'>₹{plan.price}</div>
+                <div className='text-xl font-serif font-semibold text-white line-through'>₹{plan.mrp}</div>
               </Card>
             </Col>
 
@@ -158,6 +167,13 @@ export default function Subscription() {
             label="Price"
             name="price"
             rules={[{ required: true, message: 'Please input the price!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="MRP"
+            name="mrp"
+            rules={[{ required: true, message: 'Please input the mrp!' }]}
           >
             <Input />
           </Form.Item>

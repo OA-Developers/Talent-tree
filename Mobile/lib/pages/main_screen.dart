@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talent_tree/pages/audience_page.dart';
 import 'package:talent_tree/pages/coupons_page.dart';
@@ -8,6 +9,7 @@ import 'package:talent_tree/pages/home_page.dart';
 import 'package:talent_tree/pages/profile_page.dart';
 import 'package:talent_tree/pages/registration_screen.dart';
 import 'package:talent_tree/pages/subscription_page.dart';
+import 'package:talent_tree/providers/user_provider.dart';
 import 'package:talent_tree/utils/utils.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,27 +23,46 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
-    const CouponsPage(),
+    const AudiencePage(),
     const DebatePage(),
     const CoursePage(),
     const ProfilePage()
   ];
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void getUserData() async {
+    bool isRegistered = await SharedPreferences.getInstance()
+        .then((prefs) => prefs.getBool('registered') ?? false);
+    Provider.of<UserProvider>(context, listen: false)
+        .setIsRegistered(isRegistered);
+  }
+
   void _onItemTapped(int index) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? registered = prefs.getBool('registered');
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    print(userProvider.isRegistered);
     if (index == 1) {
-      if (registered == null) {
+      if (!userProvider.isRegistered) {
         showSnackBar(context, 'Please Complete Registration First!');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const RegistrationScreen()),
         );
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const CouponsPage()),
-        );
+        if (!userProvider.isSubscribed) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CouponsPage()),
+          );
+        } else {
+          setState(() {
+            _selectedIndex = index;
+          });
+        }
       }
     } else {
       setState(() {
@@ -53,6 +74,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Talent Tree')),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -79,9 +101,10 @@ class _MainScreenState extends State<MainScreen> {
             backgroundColor: Colors.blue,
           )
         ],
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.white,
         backgroundColor: Colors.blue.shade600,
+        unselectedItemColor: Colors.white60,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped, // change this to enable others
       ),

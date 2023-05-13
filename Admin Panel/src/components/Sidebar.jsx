@@ -7,7 +7,7 @@ import { MdOutlineSubscriptions } from "react-icons/md";
 import logo_h from "../assets/logo_h.png"
 import logo from "../assets/logo.png"
 import { FiSettings } from "react-icons/fi";
-import { FaMoneyBill, FaUser } from "react-icons/fa";
+import { FaGift, FaMoneyBill, FaUser } from "react-icons/fa";
 
 export default function Sidebar() {
   return (
@@ -60,11 +60,11 @@ export default function Sidebar() {
           </Link>
           <Link
             className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md no::text-gray-400 hover:bg-gray-100 no::hover:bg-gray-800 no::hover:text-gray-200 hover:text-gray-700"
-            to="/transactions"
+            to="/coupons"
           >
-            <GrTransaction />
+            <FaGift />
 
-            <span className="mx-4 font-medium">Transactions</span>
+            <span className="mx-4 font-medium">Coupons</span>
           </Link>
 
           <Link

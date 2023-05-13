@@ -18,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     return Padding(
-      padding: EdgeInsets.only(top: 50),
+      padding: EdgeInsets.only(top: 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

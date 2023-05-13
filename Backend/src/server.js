@@ -1,14 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const authRouter = require("./routes/auth");
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
+const authRouter = require("./routes/auth");
+const planRouter = require(".//routes/plan")
 const bannerRouter = require("./routes/banner")
 const debateRouter = require("./routes/debate")
 const actingOpeningRouter = require("./routes/audience")
-const https = require('https');
-const fs = require('fs');
 const userRouter = require("./routes/user");
+const couponRouter = require("./routes/coupon");
 
 require("dotenv").config();
 
@@ -28,6 +30,8 @@ app.use(userRouter);
 app.use(bannerRouter);
 app.use(debateRouter);
 app.use(actingOpeningRouter);
+app.use(planRouter);
+app.use(couponRouter);
 
 // if (process.env.PRODUCTION) {
 
@@ -62,13 +66,13 @@ app.get("/", (req, res) => {
 
 // if (process.env.PRODUCTION) {
 
-  // https.createServer(options, app).listen(8000, () => {
-  //   console.log('Server listening on port 8000');
-  // });
+// https.createServer(options, app).listen(8000, () => {
+//   console.log('Server listening on port 8000');
+// });
 // } else {
 
-  app.listen(PORT, () => {
-    console.log(`Server started on http://localhost:${PORT}`);
-  });
+app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT}`);
+});
 // }
 

@@ -49,8 +49,46 @@ actingOpeningRouter.post('/opening', upload.single('image'), async (req, res) =>
 });
 
 actingOpeningRouter.get('/openings', async (req, res) => {
-    const openings = await ActingOpening.find();
-    res.json(openings);
+    try {
+        const category = req.query.category;
+        if (category) {
+            openings = await ActingOpening.find({ category });
+        } else {
+            openings = await ActingOpening.find();
+        }
+        res.status(200).json(openings);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+
+actingOpeningRouter.put('/opening/:id', upload.single('image'), async (req, res) => {
+    try {
+        const { title, description, source, category, location, email, whatsAppNumber } = req.body;
+        const imageUrl = req.savedImageFilename ? `files/${req.savedImageFilename}` : undefined;
+
+        const updatedOpening = await ActingOpening.findByIdAndUpdate(req.params.id, {
+            title,
+            description,
+            source,
+            category,
+            imageUrl,
+            location,
+            email,
+            whatsAppNumber
+        }, { new: true });
+
+        if (!updatedOpening) {
+            return res.status(404).json({ msg: 'Acting opening not found' });
+        }
+
+        return res.status(200).json({ msg: 'Acting opening updated successfully', opening: updatedOpening });
+    } catch (err) {
+        console.error("Error updating acting opening:", err);
+        res.status(500).json({ msg: "Server error" });
+    }
 });
 
 actingOpeningRouter.delete('/opening/:id', async (req, res) => {
@@ -59,7 +97,7 @@ actingOpeningRouter.delete('/opening/:id', async (req, res) => {
         if (!opening) {
             return res.status(404).json({ msg: 'Acting opening not found' });
         }
-        res.json({ msg: 'Acting opening deleted successfully' });
+        res.status(200).json({ msg: 'Acting opening deleted successfully' });
     } catch (error) {
         console.error('Error deleting acting opening:', error);
         res.status(500).json({ msg: 'Server error' });

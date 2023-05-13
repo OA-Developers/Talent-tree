@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:talent_tree/utils/utils.dart';
+import 'dart:io';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class OpeningDetailsScreen extends StatefulWidget {
-  const OpeningDetailsScreen({super.key});
+  final String title;
+  final String source;
+  final String description;
+  final String location;
+  final String whatsapp;
+  final String email;
+  const OpeningDetailsScreen({
+    Key? key,
+    required this.title,
+    required this.source,
+    required this.description,
+    required this.location,
+    required this.whatsapp,
+    required this.email,
+  }) : super(key: key);
 
   @override
   State<OpeningDetailsScreen> createState() => _OpeningDetailsScreenState();
@@ -12,10 +30,12 @@ class _OpeningDetailsScreenState extends State<OpeningDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Opening Details"),
+          title: const Text("Opening Details"),
           leading: IconButton(
-            onPressed: () {Navigator.of(context).pop();},
-            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.arrow_back),
           )),
       body: Card(
           child: Padding(
@@ -38,21 +58,21 @@ class _OpeningDetailsScreenState extends State<OpeningDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Male casting intern Male casting intern Male",
-                          style: TextStyle(
+                      Text(widget.title,
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const SizedBox(
                         height: 5,
                       ),
-                      const Text("TT In House",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(widget.source,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(
                         height: 5,
                       ),
                       Row(
-                        children: const [
-                          Icon(Icons.location_pin),
-                          const Text("Mumbai")
+                        children: [
+                          const Icon(Icons.location_pin),
+                          Text(widget.location)
                         ],
                       )
                     ],
@@ -70,9 +90,8 @@ class _OpeningDetailsScreenState extends State<OpeningDetailsScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Expanded(
-              child: Text(
-                  "Male cating intern male casting intern male casting intern male casting intern male casting intern male casting intern male casting intern male casting intern male casting internmale casting intern"),
+            Expanded(
+              child: Text(widget.description),
             ),
             Positioned(
               bottom: 0,
@@ -89,7 +108,20 @@ class _OpeningDetailsScreenState extends State<OpeningDetailsScreen> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xff0a2647)),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      final Uri emailUri = Uri(
+                          scheme: 'mailto',
+                          path: widget.email,
+                          queryParameters: {
+                            'subject': 'Talent Tree',
+                            'body': 'Talent Tree'
+                          });
+                      if (await canLaunchUrl(emailUri)) {
+                        await launchUrl(emailUri);
+                      } else {
+                        throw 'Could not launch email client';
+                      }
+                    },
                     child: const Text("Apply Now",
                         style: TextStyle(color: Colors.white)),
                   )),
@@ -111,7 +143,23 @@ class _OpeningDetailsScreenState extends State<OpeningDetailsScreen> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.green.shade800),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      var contact = '+91${widget.whatsapp}';
+                      var androidUrl =
+                          "whatsapp://send?phone=$contact&text=Hey There";
+                      var iosUrl =
+                          "https://wa.me/$contact?text=${Uri.parse('Hey, There')}";
+
+                      try {
+                        if (Platform.isIOS) {
+                          await launchUrl(Uri.parse(iosUrl));
+                        } else {
+                          await launchUrl(Uri.parse(androidUrl));
+                        }
+                      } on Exception {
+                        showSnackBar(context, 'WhatsApp is not installed.');
+                      }
+                    },
                     label: const Text("WhatsApp",
                         style: TextStyle(color: Colors.white)),
                   )),

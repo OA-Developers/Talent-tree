@@ -108,7 +108,11 @@ class AuthService {
               'Content-Type': 'application/json; charset=UTF-8',
               'x-auth-token': token
             });
+        var jsonResponse = json.decode(userRes.body);
+        // var user = jsonResponse['user'];
         userProvider.setUser(userRes.body);
+        userProvider.setIsSubscrbed(jsonResponse['isSubscribed']);
+        userProvider.setIsRegistered(jsonResponse['isRegistered']);
       }
     } catch (e) {
       showSnackBar(context, e.toString());

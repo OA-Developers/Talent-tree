@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/login_screen.dart';
 import 'package:talent_tree/pages/main_screen.dart';
+import 'package:talent_tree/pages/terms_and_conditions.dart';
 import 'package:talent_tree/services/auth_services.dart';
 import 'package:talent_tree/utils/utils.dart';
 import 'package:talent_tree/widgets/login_input_field.dart';
@@ -159,6 +160,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ));
                     })
               ]),
+              const SizedBox(height: 35),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'By registering you agree to our ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const TermsAndConditions(),
+                          ));
+                    },
+                    child: const Text(
+                      'terms & conditions',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    '.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

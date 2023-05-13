@@ -21,7 +21,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
               child: Container(
                 color: Colors.black.withOpacity(0.3),
               ),
@@ -49,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                   ActionButton(
                     height: 50,
                     width: 300,
-                    backgroundColor: Colors.blue.shade800,
+                    backgroundColor: Colors.black,
                     textColor: Colors.white,
                     text: 'REGISTER',
                     onPressed: () {

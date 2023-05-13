@@ -1,7 +1,20 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:talent_tree/pages/login_screen.dart';
+
+import 'package:talent_tree/utils/constants.dart';
+import 'package:talent_tree/utils/utils.dart';
 
 class SubscriptionPage extends StatefulWidget {
-  const SubscriptionPage({super.key});
+  final int discount;
+  const SubscriptionPage({
+    Key? key,
+    required this.discount,
+  }) : super(key: key);
 
   @override
   State<SubscriptionPage> createState() => _SubscriptionPageState();
@@ -12,7 +25,7 @@ class SubscriptionCard extends StatelessWidget {
   final String discountedPrice;
   final String price;
   final String buttonText;
-  final VoidCallback onPressed;
+  final BuildContext context;
 
   const SubscriptionCard({
     Key? key,
@@ -20,8 +33,42 @@ class SubscriptionCard extends StatelessWidget {
     required this.discountedPrice,
     required this.price,
     required this.buttonText,
-    required this.onPressed,
+    required this.context,
   }) : super(key: key);
+
+  void _subscribePlan() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('x-auth-token');
+      if (token == null) {
+        // Handle case where user is not authenticated
+        // Show login screen
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => LoginScreen()));
+        return;
+      }
+      final url = Uri.parse('${Constants.baseURL}subscribe');
+      final Map<String, String> headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'x-auth-token': token
+      };
+      final body = <String, dynamic>{
+        'duration': 30
+      }; // replace with the desired duration in days
+      final response =
+          await http.post(url, headers: headers, body: jsonEncode(body));
+      if (response.statusCode == 200) {
+        // subscription successful
+        showSnackBar(context, jsonDecode(response.body)['msg']);
+      } else {
+        // handle error
+        showSnackBar(context, jsonDecode(response.body)['msg']);
+      }
+    } catch (e) {
+      // handle error
+      print('Failed to subscribe to the plan. Exception: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +118,11 @@ class SubscriptionCard extends StatelessWidget {
               SizedBox(
                 width: 150, // set the desired width
                 child: ElevatedButton(
-                  onPressed: onPressed,
+                  onPressed: () {
+                    if (int.parse(discountedPrice) == 0) {
+                      _subscribePlan();
+                    }
+                  },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black54),
@@ -81,7 +132,7 @@ class SubscriptionCard extends StatelessWidget {
                   ),
                   child: Text(
                     buttonText,
-                    style: TextStyle(fontFamily: 'Poppins', fontSize: 12),
+                    style: const TextStyle(fontFamily: 'Poppins', fontSize: 12),
                   ),
                 ),
               )
@@ -93,7 +144,73 @@ class SubscriptionCard extends StatelessWidget {
   }
 }
 
+class PlanData {
+  final String price;
+  final String mrp;
+  final int duration;
+
+  PlanData({required this.price, required this.mrp, required this.duration});
+}
+
 class _SubscriptionPageState extends State<SubscriptionPage> {
+  List<PlanData> _subscriptions = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchPlans();
+  }
+
+  Future<void> _fetchPlans() async {
+    final response = await http.get(Uri.parse('${Constants.baseURL}plans'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      final List<PlanData> plans = [];
+      print(data);
+
+      for (final plan in data) {
+        plans.add(
+          PlanData(
+              price: plan['price'],
+              mrp: plan['mrp'],
+              duration: plan['duration']),
+        );
+      }
+
+      setState(() {
+        _subscriptions = plans;
+      });
+    } else {
+      throw Exception('Failed to fetch banners');
+    }
+  }
+
+  String convertDays(int numDays) {
+    int years = (numDays / 365).floor();
+    int remainingDays = numDays % 365;
+    int months = (remainingDays / 30).floor();
+    remainingDays %= 30;
+    String output = '';
+    if (years > 0) {
+      output += '$years Year${years > 1 ? 's' : ''}';
+    }
+    if (months > 0) {
+      if (years > 0) {
+        output += ' ';
+      }
+      output += '$months Month${months > 1 ? 's' : ''}';
+    }
+    if (remainingDays > 0) {
+      if (years > 0 || months > 0) {
+        output += ' ';
+      }
+      output += '$remainingDays Day${remainingDays > 1 ? 's' : ''}';
+    }
+    return output;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,61 +317,33 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                     ),
                     // Add a GridView or any other widgets here
                     const SizedBox(height: 25),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _subscriptions.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8.0,
+                        mainAxisSpacing: 8.0,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        final subscription = _subscriptions[index];
+                        int finalPriceInt = int.parse(subscription.price);
+                        final discountBy = widget.discount;
+                        if (discountBy > 0) {
+                          finalPriceInt -=
+                              (finalPriceInt * discountBy / 100).round();
+                        }
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: SubscriptionCard(
-                            duration: "1 Month",
-                            discountedPrice: "49",
-                            price: "150",
-                            buttonText: "Subscribe",
-                            onPressed: () {},
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: SubscriptionCard(
-                            duration: "3 Month",
-                            discountedPrice: "149",
-                            price: "350",
-                            buttonText: "Subscribe",
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: SubscriptionCard(
-                            duration: "6 Month",
-                            discountedPrice: "249",
-                            price: "450",
-                            buttonText: "Subscribe",
-                            onPressed: () {},
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          child: SubscriptionCard(
-                            duration: "1 Year",
-                            discountedPrice: "449",
-                            price: "850",
-                            buttonText: "Subscribe",
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
+                        return SubscriptionCard(
+                            duration: convertDays(subscription.duration),
+                            discountedPrice: finalPriceInt.toString(),
+                            context: context,
+                            price: subscription
+                                .mrp, // Replace with actual price data
+                            buttonText: 'Subscribe');
+                      },
                     )
                   ],
                 ),

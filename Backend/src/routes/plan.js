@@ -6,10 +6,11 @@ const planRouter = express.Router();
 
 planRouter.post('/plans', async (req, res) => {
     try {
-        const { price, duration } = req.body;
+        const { price, duration, mrp } = req.body;
 
         const plan = new Plan({
             price,
+            mrp,
             duration,
         });
 

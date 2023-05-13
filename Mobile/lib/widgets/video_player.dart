@@ -24,7 +24,7 @@ class VideoPlayerState extends State<VideoPlayer> {
     _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
-      aspectRatio: _videoPlayerController.value.aspectRatio,
+      aspectRatio: 16 / 9,
       autoPlay: true,
       looping: false,
       allowMuting: true,
@@ -53,23 +53,12 @@ class VideoPlayerState extends State<VideoPlayer> {
       body: Column(
         children: [
           AspectRatio(
-            aspectRatio: _videoPlayerController.value.aspectRatio,
+            aspectRatio: 16 / 9,
             child: Chewie(
               controller: _chewieController,
             ),
           ),
           SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.fullscreen),
-                onPressed: () {
-                  _chewieController.enterFullScreen();
-                },
-              ),
-            ],
-          ),
         ],
       ),
     );

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/subscription_page.dart';
+import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/utils/utils.dart';
 import 'package:talent_tree/widgets/action_button.dart';
+import 'package:http/http.dart' as http;
 
 class CouponsPage extends StatefulWidget {
   const CouponsPage({super.key});
@@ -23,6 +27,15 @@ class _CouponsPageState extends State<CouponsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Coupons'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
       body: SizedBox(
           width: double.infinity,
           child: Padding(
@@ -33,7 +46,7 @@ class _CouponsPageState extends State<CouponsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 80,
+                    height: 25,
                   ),
                   const Text(
                     'Apply Coupon Here',
@@ -43,6 +56,7 @@ class _CouponsPageState extends State<CouponsPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: _couponController,
                     style: const TextStyle(color: Colors.grey),
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -91,33 +105,55 @@ class _CouponsPageState extends State<CouponsPage> {
                       ActionButton(
                           height: 50,
                           width: 150,
-                          backgroundColor: Colors.black87,
-                          textColor: Colors.white,
+                          backgroundColor: Colors.grey.shade400,
+                          textColor: Colors.black54,
                           text: "SKIP",
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => const SubscriptionPage()));
+                                    builder: (_) => const SubscriptionPage(
+                                          discount: 0,
+                                        )));
                           }),
                       ActionButton(
-                          height: 50,
-                          width: 150,
-                          backgroundColor: Colors.indigoAccent.shade400,
-                          textColor: Colors.white,
-                          text: "APPLY",
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              showSnackBar(
-                                  context, 'Coupon Applied Successfully');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const SubscriptionPage(),
-                                ),
+                        height: 50,
+                        width: 150,
+                        backgroundColor: Colors.black87,
+                        textColor: Colors.white,
+                        text: "APPLY",
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              final code = _couponController.text.trim();
+                              final response = await http.post(
+                                Uri.parse('${Constants.baseURL}apply-coupon'),
+                                body: {'code': code},
                               );
+                              if (response.statusCode == 200) {
+                                final discount =
+                                    jsonDecode(response.body)['discount'];
+                                showSnackBar(
+                                    context, 'Coupon Applied Successfully.');
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => SubscriptionPage(
+                                          discount: int.parse(discount))),
+                                );
+                              } else if (response.statusCode == 400) {
+                                final msg = json.decode(response.body)['msg'];
+                                showSnackBar(context, msg);
+                              } else {
+                                throw Exception('Failed to apply coupon');
+                              }
+                            } catch (error) {
+                              showSnackBar(context, 'Error applying coupon');
+                              print(error);
                             }
-                          })
+                          }
+                        },
+                      )
                     ],
                   )
                 ],

@@ -18,7 +18,7 @@ class _AudiencePageState extends State<AudiencePage> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Padding(
-          padding: const EdgeInsets.only(top: 50),
+          padding: const EdgeInsets.only(top: 0),
           child: IntrinsicWidth(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -27,14 +27,16 @@ class _AudiencePageState extends State<AudiencePage> {
                 children: [
                   Expanded(
                     child: Card(
-                      color: Color.fromARGB(255, 28, 28, 39),
+                      color: const Color.fromARGB(255, 28, 28, 39),
                       child: InkWell(
                         onTap: () {
                           // Perform action when TV Shows tile is tapped.
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => OpeningListScreen(),
+                                builder: (_) => const OpeningListScreen(
+                                  category: 'tv',
+                                ),
                               ));
                         },
                         child: ClipRRect(
@@ -55,14 +57,16 @@ class _AudiencePageState extends State<AudiencePage> {
                   ),
                   Expanded(
                     child: Card(
-                      color: Color.fromARGB(255, 28, 28, 39),
+                      color: const Color.fromARGB(255, 28, 28, 39),
                       child: InkWell(
                         onTap: () {
                           // Perform action when Movies tile is tapped.
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => OpeningListScreen(),
+                                builder: (_) => const OpeningListScreen(
+                                  category: 'web',
+                                ),
                               ));
                         },
                         child: ClipRRect(
@@ -83,21 +87,23 @@ class _AudiencePageState extends State<AudiencePage> {
                   ),
                   Expanded(
                     child: Card(
-                      color: Color.fromARGB(255, 28, 28, 39),
+                      color: const Color.fromARGB(255, 28, 28, 39),
                       child: InkWell(
                         onTap: () {
                           // Perform action when Web & Ads tile is tapped.
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => OpeningListScreen(),
+                                builder: (_) => const OpeningListScreen(
+                                  category: 'ads',
+                                ),
                               ));
                         },
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
                             decoration: BoxDecoration(
-                              image: DecorationImage(
+                              image: const DecorationImage(
                                 image: AssetImage(
                                     'assets/images/ad_shoot_banner.png'),
                                 fit: BoxFit.fitWidth,

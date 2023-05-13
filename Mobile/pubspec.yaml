@@ -46,6 +46,9 @@ dependencies:
   video_thumbnail: ^0.5.3
   path: ^1.8.2
   flutter_svg: ^1.1.6
+  webview_flutter: ^4.2.0
+  change_app_package_name: ^1.1.0
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +75,7 @@ flutter:
   assets:
     - assets/images/
     - assets/videos/splash_video.mp4
+    - assets/terms_and_conditions.html
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

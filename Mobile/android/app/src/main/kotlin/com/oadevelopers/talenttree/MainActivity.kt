@@ -1,4 +1,4 @@
-package com.example.talent_tree
+package com.oadevelopers.talenttree
 
 import io.flutter.embedding.android.FlutterActivity
 

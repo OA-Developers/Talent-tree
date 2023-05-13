@@ -67,6 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF3DB4FC),
       body: Center(
         child: Chewie(
           controller: _chewieController,

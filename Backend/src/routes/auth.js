@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const adminUser = require("../models/adminUser");
+const Registration = require("../models/registration");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
 
@@ -127,8 +128,18 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
-  res.json({ ...user._doc, token: req.token })
-})
+  const registration = await Registration.findOne({ userId: req.user });
+  const isSubscribed = user.subscription !== null;
+  const response = {
+    ...user._doc,
+    token: req.token,
+    isSubscribed,
+    isRegistered: !!registration,
+  };
+
+  res.json(response);
+});
+
 
 
 

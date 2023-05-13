@@ -42,9 +42,26 @@ const Audience = () => {
         setVisible(false);
 
     };
-    const handleDelete = () => {
+    const handleDelete = async (planId) => {
+        try {
+            const response = await axios.delete(`${API_URL}/opening/${planId}`);
+            if (response.status === 200) {
+                message.success("Listing deleted successfully");
+                setVisible(false);
+                fetchListings();
+            } else {
+                message.error('Failed to delete listing');
+                setVisible(false);
 
-    };
+
+            }
+        } catch (e) {
+            message.error("Error deleting listing:", e);
+            setVisible(false);
+
+        }
+    }
+
 
     const onFinish = async (values) => {
         form.resetFields();
@@ -106,13 +123,13 @@ const Audience = () => {
                 renderItem={(item) => (
                     <List.Item
                         actions={[
-                            <Button
-                                className='bg-blue-400 rounded-lg text-white hover:text-white active:text-white'
-                                key="list-edit"
-                                onClick={() => handleEdit(item._id)}
-                            >
-                                Edit
-                            </Button>,
+                            // <Button
+                            //     className='bg-blue-400 rounded-lg text-white hover:text-white active:text-white'
+                            //     key="list-edit"
+                            //     onClick={() => handleEdit(item._id)}
+                            // >
+                            //     Edit
+                            // </Button>,
                             <Button
                                 className='bg-red-400 rounded-lg text-white hover:text-white'
                                 key="list-delete"

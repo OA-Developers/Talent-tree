@@ -5,6 +5,10 @@ const planSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    mrp: {
+        type: String,
+        required: true
+    },
     duration: {
         type: Number,
         required: true
