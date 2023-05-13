@@ -128,7 +128,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
-  const registration = await Registration.findOne({ userId: req.user });
+  var registration = await Registration.findOne({ userId: req.user });
 
   if (!registration)
     registration = false
