@@ -128,16 +128,22 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
-  var registration = await Registration.findOne({ userId: req.user });
+  const registration = await Registration.findOne({ userId: req.user });
+  var isRegistered;
 
-  if (!registration)
-    registration = false
+
+
+  if (registration) {
+    isRegistered = true;
+  } else {
+    isRegistered = false
+  }
   const isSubscribed = user.subscription !== null;
   const response = {
     ...user._doc,
     token: req.token,
     isSubscribed,
-    isRegistered: registration,
+    isRegistered: isRegistered,
   };
 
   res.json(response);
