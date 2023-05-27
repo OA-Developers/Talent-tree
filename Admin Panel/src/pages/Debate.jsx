@@ -3,6 +3,7 @@ import { Card, Row, Col, Modal, Form, Input, Upload, Button, message, Select, Ty
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useForm } from 'antd/es/form/Form';
+import { MdDelete } from 'react-icons/md';
 const { Meta } = Card;
 const { TextArea } = Input;
 const { Option } = Select;
@@ -17,16 +18,37 @@ const Debate = () => {
     const [form] = useForm();
     const API_URL = process.env.REACT_APP_API_URL;
 
+    const fetchDebates = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/debates`);
+            setDebates(response.data);
+        } catch (error) {
+            message.error('Error fetching debates:', error);
+        }
+    };
+
+    const handleDeleteDebate = async (debateId) => {
+        try {
+            const response = await axios.delete(`${API_URL}/debate/${debateId}`);
+            if (response.status === 200) {
+                message.success("Debate deleted successfully");
+                setIsModalVisible(false);
+
+                fetchDebates();
+            } else {
+                message.error('Failed to delete debate');
+                setIsModalVisible(false);
+
+            }
+        } catch (e) {
+            message.error("Error deleting debate:", e);
+            setIsModalVisible(false);
+
+        }
+    }
 
     useEffect(() => {
-        const fetchDebates = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/debates`);
-                setDebates(response.data);
-            } catch (error) {
-                message.error('Error fetching debates:', error);
-            }
-        };
+
 
         fetchDebates();
     }, []);
@@ -118,6 +140,13 @@ const Debate = () => {
                     {debates.map((debate) => (
                         <Col key={debate.title} xs={24} sm={12} md={8} lg={6}>
                             <div className='h-48 w-80 border border-gray-300 flex flex-col relative rounded-md overflow-hidden'>
+                                <div
+                                    type='text'
+                                    className='absolute top-2 text-red-600 text-xl bg-white cursor-pointer rounded-full left-2'
+                                    onClick={() => handleDeleteDebate(debate._id)}
+                                >
+                                    <MdDelete />
+                                </div>
 
                                 <div className='h-full w-full bg-contain bg-center' style={{ backgroundImage: `url(${API_URL}/${debate.thumbnailUrl})` }}></div>
                                 <div className='absolute bottom-0 w-full bg-[rgba(0,0,0,0.6)] py-2 text-white px-5'>

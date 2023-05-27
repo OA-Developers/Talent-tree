@@ -22,6 +22,7 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
     validate: {
       validator: (value) => {
         const ex =
@@ -35,9 +36,24 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String,
   },
-
+  otp: {
+    type: String,
+    default: null,
+  },
+  otpExpiry: {
+    type: Date,
+    default: null,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   subscription: {
     type: subscriptionSchema,
+    default: null,
+  },
+  imagePath: {
+    type: String, // Path where the image is stored on the server
     default: null,
   },
 });

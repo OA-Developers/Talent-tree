@@ -13,6 +13,7 @@ import Banners from "./pages/Banners";
 import Debate from "./pages/Debate";
 import Subscription from "./pages/Subscription";
 import Coupons from "./pages/Coupons";
+import Settings from "./pages/Settings";
 
 function ProtectedRoutes() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -47,6 +48,7 @@ function ProtectedRoutes() {
           <Route path="/startstream" element={<Startstream />} />
           <Route path="/revenue" element={<Revenue />} />
           <Route path="/debates" element={<Debate />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
     </div>

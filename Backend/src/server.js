@@ -11,6 +11,7 @@ const debateRouter = require("./routes/debate")
 const actingOpeningRouter = require("./routes/audience")
 const userRouter = require("./routes/user");
 const couponRouter = require("./routes/coupon");
+const settingsRouter = require("./routes/settings");
 
 require("dotenv").config();
 
@@ -32,6 +33,7 @@ app.use(debateRouter);
 app.use(actingOpeningRouter);
 app.use(planRouter);
 app.use(couponRouter);
+app.use(settingsRouter);
 
 // if (process.env.PRODUCTION) {
 

@@ -141,7 +141,7 @@ const Audience = () => {
                         className="border shadow-sm rounded-lg border-gray-200 py-4 m-2"
                     >
                         <List.Item.Meta
-                            avatar={<img src={`${API_URL}/${item.imageUrl}`} alt={item.title} />}
+                            avatar={<img className='h-24 w-36 object-cover' src={`${API_URL}/${item.imageUrl}`} alt={item.title} />}
                             title={item.title}
                             description={item.description}
                             className="flex items-center"

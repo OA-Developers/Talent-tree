@@ -99,6 +99,34 @@ userRouter.post("/subscribe", auth, async (req, res) => {
     }
 });
 
+userRouter.put("/update-profile", auth, upload.single('image'), async (req, res) => {
+    try {
+        const userId = req.user;
+        const { name, email } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (req.file) {
+            // Update the image path if a new image is uploaded
+            user.imagePath = req.file.path;
+        }
+
+        // Update the name and email
+        user.name = name;
+        user.email = email;
+
+        await user.save();
+
+        res.json({ message: "Profile updated successfully" });
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        res.sendStatus(500);
+    }
+});
+
 
 
 userRouter.post("/register", auth, upload.fields([{ name: 'audio', maxCount: 1 }, { name: 'video', maxCount: 1 }, { name: 'image', maxCount: 1 }, { name: 'docs', maxCount: 1 }]), async (req, res) => {
