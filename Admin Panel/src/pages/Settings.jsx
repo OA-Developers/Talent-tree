@@ -14,7 +14,8 @@ function Settings() {
     const fetchSettings = async () => {
         try {
             const response = await axios.get(`${API_URL}/settings`);
-            setSettingsData(response.data);
+            if (response.data)
+                setSettingsData(response.data);
         } catch (error) {
             message.error('Error fetching Settings:', error);
         }
