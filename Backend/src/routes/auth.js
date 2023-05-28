@@ -36,6 +36,29 @@ authRouter.post("/admin/login", async (req, res) => {
   }
 })
 
+authRouter.post("/admin/signup", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const existingUser = await adminUser.findOne({ email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ msg: "User with same email already exists!" });
+    }
+
+    let user = new adminUser({
+      email,
+      password,
+    });
+    user = await user.save();
+    return res.json(user);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+});
+
+
 authRouter.post("/api/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
