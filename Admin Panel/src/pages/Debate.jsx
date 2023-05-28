@@ -151,7 +151,7 @@ const Debate = () => {
                                 <div className='h-full w-full bg-contain bg-center' style={{ backgroundImage: `url(${API_URL}/${debate.thumbnailUrl})` }}></div>
                                 <div className='absolute bottom-0 w-full bg-[rgba(0,0,0,0.6)] py-2 text-white px-5'>
                                     <div className='text-lg font-medium'>{debate.title}</div>
-                                    <div className='text-sm overflow-ellipsis overflow-hidden'>{debate.description}</div>
+                                    <div className='text-sm h-5 text-ellipsis  overflow-hidden'>{debate.description}</div>
                                 </div>
                             </div>
 
