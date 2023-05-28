@@ -108,10 +108,9 @@ userRouter.post("/update-profile", auth, upload.single('image'), async (req, res
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-
         if (req.file) {
             // Update the image path if a new image is uploaded
-            user.profileImage = req.file.path;
+            user.profileImage = req.savedImageFilename;
         }
 
         // Update the name and email
