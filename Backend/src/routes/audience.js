@@ -1,3 +1,4 @@
+const moment = require('moment-timezone');
 const express = require("express");
 const ActingOpening = require("../models/audience");
 const multer = require('multer');
@@ -48,20 +49,30 @@ actingOpeningRouter.post('/opening', upload.single('image'), async (req, res) =>
     }
 });
 
+
 actingOpeningRouter.get('/openings', async (req, res) => {
     try {
         const category = req.query.category;
+        let openings;
+
         if (category) {
             openings = await ActingOpening.find({ category });
         } else {
             openings = await ActingOpening.find();
         }
-        res.status(200).json(openings);
+
+        const convertedOpenings = openings.map(opening => {
+            const convertedTime = moment(opening.time).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
+            return { ...opening._doc, convertedTime };
+        });
+
+        res.status(200).json(convertedOpenings);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
 
 
 actingOpeningRouter.put('/opening/:id', upload.single('image'), async (req, res) => {

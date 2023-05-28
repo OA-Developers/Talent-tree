@@ -71,7 +71,7 @@ function Settings() {
                     <img className="w-full rounded-sm h-full" src={settingsData.tvBanner ? `${API_URL}/files/${settingsData.tvBanner}` : "https://images.unsplash.com/photo-1685094488656-9231107be07f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"} alt="" />
                 </div>
                 <div className="w-72 rounded-sm flex justify-center relative items-center h-44 border border-gray-300 shadow-md">
-                    <p className="absolute -translate-x-1/2 left-1/2 -bottom-6 font-semibold">Web/Movie Audition</p>
+                    <p className="absolute -translate-x-1/2 left-1/2 -bottom-6 font-semibold">Web/Movie</p>
                     <FiEdit onClick={() => showModal('updateWebBanner')} className="text-white cursor-pointer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 " size={30} />
                     <img className="w-full rounded-sm h-full" src={settingsData.webBanner ? `${API_URL}/files/${settingsData.webBanner}` : "https://images.unsplash.com/photo-1685094488656-9231107be07f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"} alt="" />
                 </div>

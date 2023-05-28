@@ -99,10 +99,10 @@ userRouter.post("/subscribe", auth, async (req, res) => {
     }
 });
 
-userRouter.put("/update-profile", auth, upload.single('image'), async (req, res) => {
+userRouter.post("/update-profile", auth, upload.single('image'), async (req, res) => {
     try {
         const userId = req.user;
-        const { name, email } = req.body;
+        const { name } = req.body;
 
         const user = await User.findById(userId);
         if (!user) {
@@ -111,12 +111,11 @@ userRouter.put("/update-profile", auth, upload.single('image'), async (req, res)
 
         if (req.file) {
             // Update the image path if a new image is uploaded
-            user.imagePath = req.file.path;
+            user.profileImage = req.file.path;
         }
 
         // Update the name and email
         user.name = name;
-        user.email = email;
 
         await user.save();
 

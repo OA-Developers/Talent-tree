@@ -52,8 +52,8 @@ const userSchema = mongoose.Schema({
     type: subscriptionSchema,
     default: null,
   },
-  imagePath: {
-    type: String, // Path where the image is stored on the server
+  profileImage: {
+    type: String,
     default: null,
   },
 });

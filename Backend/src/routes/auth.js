@@ -229,6 +229,7 @@ authRouter.post("/api/signup", async (req, res) => {
       password: hashedPassword,
       otp,
       otpExpiry,
+      profileImage: ""
     });
     user = await user.save();
 

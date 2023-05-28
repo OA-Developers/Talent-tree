@@ -85,7 +85,7 @@ settingsRouter.post("/settings/updateWebBanner", upload.single('file'), async (r
 
 settingsRouter.get('/settings', async (req, res) => {
     const settings = await Settings.findOne({ name: "default" });
-    res.json(settings);
+    res.status(200).json(settings);
 });
 module.exports = settingsRouter;
 
