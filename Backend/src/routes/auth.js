@@ -57,6 +57,7 @@ authRouter.post("/api/signup", async (req, res) => {
       password: hashedPassword,
       otp,
       otpExpiry,
+      profileImage: ""
     });
     user = await user.save();
 
@@ -208,58 +209,6 @@ authRouter.post("/api/signin", async (req, res) => {
   }
 });
 
-authRouter.post("/api/signup", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const name = `Talent${getRandomNumber(1, 10000)}`;
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ msg: "User with the same email already exists!" });
-    }
-
-    const otp = otpGenerator.generate(6, { alphabets: false, upperCase: false, specialChars: false });
-    const otpExpiry = Date.now() + 600000; // OTP expiry set to 10 minutes from now
-
-    const hashedPassword = await bcrypt.hash(password, 8);
-
-    let user = new User({
-      name,
-      email,
-      password: hashedPassword,
-      otp,
-      otpExpiry,
-      profileImage: ""
-    });
-    user = await user.save();
-
-    // Send OTP to the user's email
-    const transporter = nodemailer.createTransport({
-      // Configure your email transport settings here (e.g., SMTP)
-    });
-
-    const mailOptions = {
-      from: "your_email@example.com",
-      to: email,
-      subject: "OTP Verification",
-      text: `Your OTP is: ${otp}`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log("Error sending email:", error);
-        // Handle error case, such as returning an error response to the client
-      } else {
-        console.log("Email sent:", info.response);
-        // Handle success case, such as returning a success response to the client
-      }
-    });
-
-    return res.json({ msg: "User created. Please check your email for OTP verification." });
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-});
 
 // Resend Otp
 authRouter.post("/api/resend-otp", async (req, res) => {
