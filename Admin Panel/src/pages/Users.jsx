@@ -63,7 +63,7 @@ export default function Users() {
         <Table.Column dataIndex="logo" key="logo" render={(c, record) => {
           return (
 
-            <Avatar src={record.profileImage ? record.profileImage : logo} />
+            <Avatar src={record.profileImage ? `${API_URL}/files${record.profileImage}` : logo} />
           )
         }
         }
@@ -72,8 +72,8 @@ export default function Users() {
         <Table.Column title="Email" dataIndex="email" key="age" />
         {/* <Table.Column title="Address" dataIndex="address" key="address" /> */}
         <Table.Column
-          title="Action"
-          key="action"
+          title="Registration"
+          key="registration"
           render={(text, record) => (
             <Space size="middle">
               <Button className='bg-red-500 text-white font-semibold' type="danger" onClick={() => showRegistration(record._id)}>
