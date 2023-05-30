@@ -195,4 +195,35 @@ userRouter.post('/apply-coupon', async (req, res) => {
     }
 });
 
+userRouter.get('/getAllUsers', async (req, res) => {
+    try {
+        const users = await User.find({});
+        if (users) {
+            res.status(200).json({ users });
+        } else {
+            res.status(404).json({ msg: "No users found" });
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Server error" });
+    }
+})
+
+userRouter.get('/getUserRegistration', async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const userRegistration = await Registration.find({ userId: userId });
+        if (userRegistration) {
+            res.status(200).json({ userRegistration });
+        } else {
+            res.status(404).json({ msg: "No registration found" });
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "Server error" });
+    }
+});
+
 module.exports = userRouter;
