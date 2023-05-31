@@ -17,13 +17,36 @@ const Audience = () => {
     const [visible, setVisible] = useState(false);
     const [isCreating, setIsCreating] = useState(true);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [currentItemId, setCurrentItemId] = useState(null);
 
 
     const [data, setData] = useState([]);
 
-    const handleEdit = () => {
+    const handleEdit = (itemId) => {
+        const currentItem = data.find((item) => item._id === itemId);
+        form.setFieldsValue({
+            title: currentItem.title,
+            description: currentItem.description,
+            source: currentItem.source,
+            category: currentItem.category,
+            location: currentItem.location,
+            email: currentItem.email,
+            whatsAppNumber: currentItem.whatsAppNumber,
+            image: {
+                file: null,
+                originFileObj: {
+                    uid: currentItem._id, // Use a unique identifier for the image field
+                    name: currentItem.imageUrl, // Use the current image URL as the name
+                    status: 'done',
+                    url: `${API_URL}/${currentItem.imageUrl}`, // Use the current image URL as the URL
+                },
+            }, // Clear the image field
+        });
+        setCurrentItemId(itemId); // Set the current item ID
+        setIsCreating(false);
         setVisible(true);
     };
+
 
     const fetchListings = async () => {
         try {
@@ -62,7 +85,6 @@ const Audience = () => {
         }
     }
 
-
     const onFinish = async (values) => {
         form.resetFields();
         try {
@@ -76,30 +98,43 @@ const Audience = () => {
             formData.append('location', location);
             formData.append('email', email);
             formData.append('whatsAppNumber', whatsAppNumber);
-            formData.append('image', file.originFileObj);
-            const
+            if (file) {
+                formData.append('image', file.originFileObj);
+            }
+
+            let response;
+            if (isCreating) {
+                // Create a new item
                 response = await axios.post(`${API_URL}/opening`, formData, {
                     onUploadProgress: (progressEvent) => {
                         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                         console.log('Upload progress:', percentCompleted);
                         setUploadProgress(percentCompleted);
-                    }
+                    },
                 });
+            } else {
+                // Update an existing item
+                response = await axios.put(`${API_URL}/opening/${currentItemId}`, formData, {
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        console.log('Upload progress:', percentCompleted);
+                        setUploadProgress(percentCompleted);
+                    },
+                });
+            }
 
             if (response.status === 200) {
-                message.success('Added successfully');
+                message.success(isCreating ? 'Added successfully' : 'Updated successfully');
                 setVisible(false);
-                form.resetFields()
+                fetchListings();
             } else {
-                message.error('Failed to add');
-                form.resetFields()
+                message.error(isCreating ? 'Failed to add' : 'Failed to update');
                 setVisible(false);
             }
         } catch (error) {
-            console.error('Error adding:', error);
-            message.error('Failed to add');
+            console.error('Error:', error);
+            message.error(isCreating ? 'Failed to add' : 'Failed to update');
             setVisible(false);
-
         }
     };
 
@@ -130,6 +165,13 @@ const Audience = () => {
                             // >
                             //     Edit
                             // </Button>,
+                            <Button
+                                className='bg-blue-400 rounded-lg text-white hover:text-white'
+                                key="list-delete"
+                                onClick={() => handleEdit(item._id)}
+                            >
+                                Edit
+                            </Button>,
                             <Button
                                 className='bg-red-400 rounded-lg text-white hover:text-white'
                                 key="list-delete"
