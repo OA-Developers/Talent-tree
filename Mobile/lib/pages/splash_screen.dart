@@ -1,7 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:talent_tree/pages/login_screen.dart';
 import 'package:talent_tree/pages/main_screen.dart';
 import 'package:talent_tree/pages/onboarding_screen.dart';
 import 'package:talent_tree/providers/user_provider.dart';
@@ -31,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       videoPlayerController: videoPlayerController,
       autoPlay: true,
       looping: false,
+      aspectRatio: 9 / 16,
       showControls: false,
     );
 
@@ -67,20 +67,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF3DB4FC),
+      backgroundColor: const Color(0xFF3DB4FC),
       body: Center(
         child: Chewie(
           controller: _chewieController,
         ),
       ),
-      // bottomNavigationBar: const Padding(
-      //   padding: EdgeInsets.all(35),
-      //   child: Text(
-      //     "Talent Tree",
-      //     textAlign: TextAlign.center,
-      //     style: TextStyle(fontSize: 16),
-      //   ),
-      // ),
     );
   }
 }

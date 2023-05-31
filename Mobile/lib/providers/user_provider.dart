@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:talent_tree/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
-  User _user = User(id: '', name: '', email: '', token: '', password: '');
-  late bool _isSubscribed ;
-  late bool _isRegistered ;
+  User _user = User(
+      id: '', name: '', email: '', token: '', password: '', profileImage: '');
+  bool _isSubscribed = false;
+  bool _isRegistered = false;
 
   User get user => _user;
   bool get isSubscribed => _isSubscribed;
@@ -21,7 +22,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   void setIsRegistered(bool registered) {
-
     _isRegistered = registered;
     notifyListeners();
   }

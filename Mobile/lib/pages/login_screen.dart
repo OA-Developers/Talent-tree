@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:talent_tree/pages/forgot_pass.dart';
 import 'package:talent_tree/pages/main_screen.dart';
 import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/services/auth_services.dart';
@@ -81,13 +82,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(right: 35.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Text("Forgot Password",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500)),
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ForgotPassword(),
+                            ));
+                      },
+                      child: const Text("Forgot Password",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500)),
+                    ),
                   ],
                 ),
               ),

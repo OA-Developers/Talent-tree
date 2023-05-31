@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talent_tree/pages/login_screen.dart';
+import 'package:talent_tree/pages/splash_screen.dart';
 
 import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/utils/utils.dart';
@@ -21,7 +22,7 @@ class SubscriptionPage extends StatefulWidget {
 }
 
 class SubscriptionCard extends StatelessWidget {
-  final String duration;
+  final int duration;
   final String discountedPrice;
   final String price;
   final String buttonText;
@@ -53,13 +54,19 @@ class SubscriptionCard extends StatelessWidget {
         'x-auth-token': token
       };
       final body = <String, dynamic>{
-        'duration': 30
+        'duration': duration
       }; // replace with the desired duration in days
       final response =
           await http.post(url, headers: headers, body: jsonEncode(body));
       if (response.statusCode == 200) {
         // subscription successful
         showSnackBar(context, jsonDecode(response.body)['msg']);
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const SplashScreen()),
+          (route) => false,
+        );
       } else {
         // handle error
         showSnackBar(context, jsonDecode(response.body)['msg']);
@@ -87,7 +94,7 @@ class SubscriptionCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                duration,
+                convertDays(duration),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -114,7 +121,7 @@ class SubscriptionCard extends StatelessWidget {
                   decoration: TextDecoration.lineThrough,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               SizedBox(
                 width: 150, // set the desired width
                 child: ElevatedButton(
@@ -141,6 +148,30 @@ class SubscriptionCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String convertDays(int numDays) {
+    int years = (numDays / 365).floor();
+    int remainingDays = numDays % 365;
+    int months = (remainingDays / 30).floor();
+    remainingDays %= 30;
+    String output = '';
+    if (years > 0) {
+      output += '$years Year${years > 1 ? 's' : ''}';
+    }
+    if (months > 0) {
+      if (years > 0) {
+        output += ' ';
+      }
+      output += '$months Month${months > 1 ? 's' : ''}';
+    }
+    if (remainingDays > 0) {
+      if (years > 0 || months > 0) {
+        output += ' ';
+      }
+      output += '$remainingDays Day${remainingDays > 1 ? 's' : ''}';
+    }
+    return output;
   }
 }
 
@@ -185,30 +216,6 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
     } else {
       throw Exception('Failed to fetch banners');
     }
-  }
-
-  String convertDays(int numDays) {
-    int years = (numDays / 365).floor();
-    int remainingDays = numDays % 365;
-    int months = (remainingDays / 30).floor();
-    remainingDays %= 30;
-    String output = '';
-    if (years > 0) {
-      output += '$years Year${years > 1 ? 's' : ''}';
-    }
-    if (months > 0) {
-      if (years > 0) {
-        output += ' ';
-      }
-      output += '$months Month${months > 1 ? 's' : ''}';
-    }
-    if (remainingDays > 0) {
-      if (years > 0 || months > 0) {
-        output += ' ';
-      }
-      output += '$remainingDays Day${remainingDays > 1 ? 's' : ''}';
-    }
-    return output;
   }
 
   @override
@@ -337,7 +344,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
                         }
 
                         return SubscriptionCard(
-                            duration: convertDays(subscription.duration),
+                            duration: subscription.duration,
                             discountedPrice: finalPriceInt.toString(),
                             context: context,
                             price: subscription

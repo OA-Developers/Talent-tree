@@ -68,6 +68,7 @@ class _DebatePageState extends State<DebatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Debates')),
       body: ListView.builder(
         itemCount: _debates.length,
         itemBuilder: (context, index) {

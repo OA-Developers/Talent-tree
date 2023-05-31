@@ -12,25 +12,14 @@ class _CoursePageState extends State<CoursePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/images/construction.svg',
-              semanticsLabel: 'Coming soon',
-              height: 150,
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            const Text(
-              'Coming Soon...',
-              style: TextStyle(fontFamily: 'Poppins', fontSize: 18),
-            )
-          ],
+      // appBar: AppBar(title: Text('Courses')),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/course_coming.jpg'), // Replace with your image path
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

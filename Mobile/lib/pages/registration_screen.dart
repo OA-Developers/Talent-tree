@@ -3,10 +3,11 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path/path.dart' as path;
 import 'package:talent_tree/pages/login_screen.dart';
+import 'package:talent_tree/pages/splash_screen.dart';
 import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/utils/utils.dart';
+import 'package:intl/intl.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -17,6 +18,411 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController dateInput = TextEditingController();
+
+  List<String> states = [
+    "Andaman and Nicobar Islands",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Ladakh",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
+  List<String> cities = [
+    "Abohar",
+    "Agartala",
+    "Agra",
+    "Ahmedabad",
+    "Ahmednagar",
+    "Aizawl",
+    "Ajmer",
+    "Akola",
+    "Alappuzha",
+    "Aligarh",
+    "Allahabad",
+    "Alwar",
+    "Ambala",
+    "Ambarnath",
+    "Amravati",
+    "Amritsar",
+    "Anand",
+    "Anantapur",
+    "Anantnag",
+    "Arrah",
+    "Asansol",
+    "Aurangabad",
+    "Avadi",
+    "Bally",
+    "Bangalore",
+    "Baranagar",
+    "Barasat",
+    "Bardhaman",
+    "Bareilly",
+    "Bathinda",
+    "Belgaum",
+    "Bellary",
+    "Berhampore",
+    "Bettiah",
+    "Bhagalpur",
+    "Bhalswa Jahangir Pur",
+    "Bharatpur",
+    "Bhatpara",
+    "Bhavnagar",
+    "Bhilai",
+    "Bhilwara",
+    "Bhimavaram",
+    "Bhind",
+    "Bhiwandi",
+    "Bhiwani",
+    "Bhopal",
+    "Bhubaneswar",
+    "Bhusawal",
+    "Bidar",
+    "Bidhannagar",
+    "Bihar Sharif",
+    "Bijapur",
+    "Bikaner",
+    "Bilaspur",
+    "Bokaro",
+    "Bongaigaon",
+    "Bulandshahr",
+    "Burhanpur",
+    "Buxar",
+    "Chandigarh",
+    "Chandrapur",
+    "Chapra",
+    "Chennai",
+    "Chinsurah",
+    "Chittoor",
+    "Coimbatore",
+    "Cooch Behar",
+    "Cuttack",
+    "Danapur",
+    "Darbhanga",
+    "Darjiling",
+    "Davanagere",
+    "Dehradun",
+    "Dehri",
+    "Delhi",
+    "Deoghar",
+    "Dewas",
+    "Dhanbad",
+    "Dharamshala",
+    "Dhule",
+    "Dibrugarh",
+    "Dimapur",
+    "Dindigul",
+    "Durg",
+    "Durgapur",
+    "Eluru",
+    "Erode",
+    "Etawah",
+    "Faizabad",
+    "Faridabad",
+    "Faridkot",
+    "Farrukhabad",
+    "Fatehpur",
+    "Firozabad",
+    "Gandhidham",
+    "Gandhinagar",
+    "Gangapur City",
+    "Gangavathi",
+    "Gangtok",
+    "Gaya",
+    "Ghaziabad",
+    "Giridih",
+    "Godhra",
+    "Gorakhpur",
+    "Gulbarga",
+    "Guna",
+    "Guntakal",
+    "Guntur",
+    "Gurgaon",
+    "Guwahati",
+    "Gwalior",
+    "Hajipur",
+    "Haldia",
+    "Haldwani",
+    "Hapur",
+    "Hardoi",
+    "Haridwar",
+    "Hazaribagh",
+    "Hindupur",
+    "Hisar",
+    "Hospet",
+    "Howrah",
+    "Hubli-Dharwad",
+    "Hugli-Chinsurah",
+    "Hyderabad",
+    "Ichalkaranji",
+    "Imphal",
+    "Indore",
+    "Jabalpur",
+    "Jaipur",
+    "Jalandhar",
+    "Jalgaon",
+    "Jalna",
+    "Jamalpur",
+    "Jammu",
+    "Jamnagar",
+    "Jamshedpur",
+    "Jaunpur",
+    "Jehanabad",
+    "Jhansi",
+    "Jhunjhunu",
+    "Jodhpur",
+    "Junagadh",
+    "Kadapa",
+    "Kadiri",
+    "Kagaznagar",
+    "Kakinada",
+    "Kalol",
+    "Kalyan-Dombivli",
+    "Kamarhati",
+    "Kanhangad",
+    "Kanpur",
+    "Kapra",
+    "Karaikudi",
+    "Karawal Nagar",
+    "Karimnagar",
+    "Karnal",
+    "Karur",
+    "Karwar",
+    "Kasaragod",
+    "Kashipur",
+    "Katihar",
+    "Katni",
+    "Kavali",
+    "Khammam",
+    "Khandwa",
+    "Khanna",
+    "Kharagpur",
+    "Khora, Ghaziabad",
+    "Kochi",
+    "Kolhapur",
+    "Kolkata",
+    "Kollam",
+    "Korba",
+    "Kota",
+    "Kothagudem",
+    "Kottayam",
+    "Kovilpatti",
+    "Kozhikode",
+    "Krishnanagar",
+    "Kulti",
+    "Kumbakonam",
+    "Kurnool",
+    "Lalitpur",
+    "Latur",
+    "Loni",
+    "Lucknow",
+    "Ludhiana",
+    "Machilipatnam",
+    "Madanapalle",
+    "Madurai",
+    "Mahbubnagar",
+    "Mahesana",
+    "Malappuram",
+    "Malegaon",
+    "Malerkotla",
+    "Malkajgiri",
+    "Mandi",
+    "Mandsaur",
+    "Mangalore",
+    "Mango",
+    "Mathura",
+    "Mau",
+    "Meerut",
+    "Mehsana",
+    "Miryalaguda",
+    "Mirzapur",
+    "Mira-Bhayandar",
+    "Moradabad",
+    "Morbi",
+    "Morena",
+    "Motihari",
+    "Mumbai",
+    "Munger",
+    "Muzaffarnagar",
+    "Muzaffarpur",
+    "Mysore",
+    "Nabadwip",
+    "Nadiad",
+    "Nagaon",
+    "Nagapattinam",
+    "Nagercoil",
+    "Nagpur",
+    "Naihati",
+    "Nalgonda",
+    "Nanded",
+    "Nandyal",
+    "Nangloi Jat",
+    "Narasaraopet",
+    "Nashik",
+    "Navi Mumbai",
+    "Nellore",
+    "New Delhi",
+    "Nizamabad",
+    "Noida",
+    "North Barrackpore",
+    "North Dumdum",
+    "Ongole",
+    "Orai",
+    "Ozhukarai",
+    "Pali",
+    "Pallavaram",
+    "Panchkula",
+    "Panihati",
+    "Panipat",
+    "Panvel",
+    "Parbhani",
+    "Patiala",
+    "Patna",
+    "Phagwara",
+    "Pimpri-Chinchwad",
+    "Pondicherry",
+    "Port Blair",
+    "Proddatur",
+    "Pudukkottai",
+    "Pune",
+    "Purnia",
+    "Purulia",
+    "Raebareli",
+    "Raichur",
+    "Raiganj",
+    "Raigarh",
+    "Raipur",
+    "Rajahmundry",
+    "Rajapalayam",
+    "Rajendranagar",
+    "Rajkot",
+    "Rajpur Sonarpur",
+    "Ramagundam",
+    "Rampur",
+    "Rampur Hat",
+    "Ranaghat",
+    "Ranchi",
+    "Ranip",
+    "Ranipet",
+    "Ratlam",
+    "Raurkela",
+    "Rewa",
+    "Rohtak",
+    "Roorkee",
+    "Rourkela",
+    "Rudrapur",
+    "Sagar",
+    "Saharanpur",
+    "Salem",
+    "Sambalpur",
+    "Sambhal",
+    "Sangli",
+    "Sangrur",
+    "Satara",
+    "Satna",
+    "Secunderabad",
+    "Serampore",
+    "Shahjahanpur",
+    "Shimla",
+    "Shimoga",
+    "Shivamogga",
+    "Shivpuri",
+    "Sikar",
+    "Silchar",
+    "Siliguri",
+    "Singrauli",
+    "Sirsa",
+    "Sirsi",
+    "Sitapur",
+    "Siwan",
+    "Solapur",
+    "Sonipat",
+    "South Dumdum",
+    "Sri Ganganagar",
+    "Srikakulam",
+    "Srinagar",
+    "Sultan Pur Majra",
+    "Sultanpur",
+    "Surat",
+    "Surendranagar Dudhrej",
+    "Suryapet",
+    "Tadepalligudem",
+    "Tadipatri",
+    "Tenali",
+    "Tezpur",
+    "Thane",
+    "Thanjavur",
+    "Theni Allinagaram",
+    "Thiruvananthapuram",
+    "Thoothukudi",
+    "Thrissur",
+    "Tinsukia",
+    "Tiruchchirappalli",
+    "Tiruchirappalli",
+    "Tirunelveli",
+    "Tirupati",
+    "Tiruppur",
+    "Tiruvannamalai",
+    "Tiruvottiyur",
+    "Titagarh",
+    "Tohana",
+    "Tonk",
+    "Tumkur",
+    "Udaipur",
+    "Udgir",
+    "Udupi",
+    "Ujjain",
+    "Ulhasnagar",
+    "Unnao",
+    "Uttarpara Kotrung",
+    "Vadodara",
+    "Valsad",
+    "Varanasi",
+    "Vasai-Virar",
+    "Vellore",
+    "Veraval",
+    "Vidisha",
+    "Vijayawada",
+    "Vijayanagaram",
+    "Visakhapatnam",
+    "Vizianagaram",
+    "Warangal",
+    "Wardha",
+    "Yamunanagar",
+    "Yavatmal",
+    "Yelahanka",
+    "Zirakpur"
+  ];
 
   String _fullname = '';
   String _email = '';
@@ -25,10 +431,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String _mobNo = '';
   String _altMobNo = '';
   String _dob = '';
-  String _state = '';
-  String _district = '';
-  String _city = '';
-  String _currentCity = '';
+  String? _state;
+  String? _city = '';
+  String? _currentCity = '';
   String _height = '';
   String _expirience = '';
 
@@ -112,10 +517,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       request.fields['mobile'] = _mobNo;
       request.fields['mobileAlt'] = _altMobNo;
       request.fields['dob'] = _dob;
-      request.fields['state'] = _state;
-      request.fields['district'] = _district;
-      request.fields['city'] = _city;
-      request.fields['currentCity'] = _currentCity;
+      request.fields['state'] = _state!;
+      request.fields['city'] = _city!;
+      request.fields['currentCity'] = _currentCity!;
       request.fields['height'] = _height;
       request.fields['experience'] = _expirience;
 
@@ -166,7 +570,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('registered', true);
         showSnackBar(context, 'Registered Successfully!');
-        Navigator.of(context).pop();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const SplashScreen()),
+          (route) => false,
+        );
       } else {
         // Handle unsuccessful registration
         showSnackBar(context, 'Failed to register');
@@ -332,128 +740,104 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
+                  TextField(
+                    // Editing controller of this TextField
                     decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      label: Text("DOB*"),
-                      hintText: "DD/MM/YYYY",
-                      hintStyle: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
+                      icon:
+                          Icon(Icons.calendar_today), // Icon of the text field
+                      labelText: "Enter DOB*", // Label text of the field
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter dob';
+                    readOnly:
+                        true, // Set it to true, so the user cannot edit the text
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1950),
+                        lastDate: DateTime(2100),
+                      );
+
+                      if (pickedDate != null) {
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(pickedDate);
+                        setState(() {
+                          _dob = formattedDate;
+                        });
                       }
-                      return null;
                     },
-                    onSaved: (value) {
-                      _dob = value!;
-                    },
+                    controller: TextEditingController(
+                        text: _dob), // Set the text to _dob
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      label: Text("State*"),
-                      hintStyle: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    ),
+                  DropdownButtonFormField<String>(
+                    // value: _state,
+                    hint: Text('Select a state*'),
+                    onChanged: (value) {
+                      setState(() {
+                        _state = value!;
+                        _city = null; // Reset the selected city
+                      });
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your state';
+                        return 'Please select a state';
                       }
                       return null;
                     },
-                    onSaved: (value) {
-                      _state = value!;
+                    items: states.map((state) {
+                      return DropdownMenuItem<String>(
+                        value: state,
+                        child: Text(state),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    // value: _city,
+                    hint: Text('Select a city*'),
+                    onChanged: (value) {
+                      setState(() {
+                        _city = value;
+                      });
                     },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select a city';
+                      }
+                      return null;
+                    },
+                    items: cities.map((city) {
+                      return DropdownMenuItem<String>(
+                        value: city,
+                        child: Text(city),
+                      );
+                    }).toList(),
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      label: Text("District*"),
-                      hintStyle: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    ),
+                  DropdownButtonFormField<String>(
+                    // value: _city,
+                    hint: Text('Select Current city*'),
+                    onChanged: (value) {
+                      setState(() {
+                        _currentCity = value;
+                      });
+                    },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your district';
+                        return 'Please select current city';
                       }
                       return null;
                     },
-                    onSaved: (value) {
-                      _district = value!;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      label: Text("City*"),
-                      hintStyle: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your city';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _city = value!;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      label: Text("Current City*"),
-                      hintStyle: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your current city';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _currentCity = value!;
-                    },
+                    items: cities.map((city) {
+                      return DropdownMenuItem<String>(
+                        value: city,
+                        child: Text(city),
+                      );
+                    }).toList(),
                   ),
                   const SizedBox(
                     height: 15,
@@ -546,7 +930,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.image),
-                    title: Text('File & Docs'),
+                    title: const Text('File & Docs'),
                     subtitle: _imageFile == null
                         ? const Text('No documents selected')
                         : Text(_imageFile!.path),

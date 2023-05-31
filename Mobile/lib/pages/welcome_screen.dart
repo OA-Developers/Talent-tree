@@ -49,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                   ActionButton(
                     height: 50,
                     width: 300,
-                    backgroundColor: Colors.black,
+                    backgroundColor: Color.fromARGB(255, 34, 147, 212),
                     textColor: Colors.white,
                     text: 'REGISTER',
                     onPressed: () {
@@ -65,8 +65,8 @@ class WelcomeScreen extends StatelessWidget {
                   ActionButton(
                     height: 50,
                     width: 300,
-                    backgroundColor: Colors.white,
-                    textColor: Colors.black,
+                    backgroundColor: Color.fromARGB(255, 56, 182, 255),
+                    textColor: Colors.white,
                     text: 'LOGIN',
                     onPressed: () {
                       Navigator.push(context,

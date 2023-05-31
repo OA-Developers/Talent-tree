@@ -34,17 +34,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  void getUserData() async {
-    bool isRegistered = await SharedPreferences.getInstance()
-        .then((prefs) => prefs.getBool('registered') ?? false);
-    Provider.of<UserProvider>(context, listen: false)
-        .setIsRegistered(isRegistered);
-  }
-
   void _onItemTapped(int index) async {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-    print(userProvider.isRegistered);
     if (index == 1) {
       if (!userProvider.isRegistered) {
         showSnackBar(context, 'Please Complete Registration First!');
@@ -74,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Talent Tree')),
+      // appBar: AppBar(title: Text('Talent Tree')),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -86,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.group),
               backgroundColor: Colors.blue,
-              label: 'Audience'),
+              label: 'Audition'),
           BottomNavigationBarItem(
               icon: Icon(Icons.groups),
               backgroundColor: Colors.blue,

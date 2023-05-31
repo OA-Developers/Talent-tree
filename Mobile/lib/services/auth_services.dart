@@ -6,6 +6,7 @@ import "package:talent_tree/models/user.dart";
 import "package:http/http.dart" as http;
 import 'package:talent_tree/pages/main_screen.dart';
 import 'package:talent_tree/pages/register_screen.dart';
+import 'package:talent_tree/pages/splash_screen.dart';
 import 'package:talent_tree/providers/user_provider.dart';
 import 'package:talent_tree/utils/constants.dart';
 import 'package:talent_tree/utils/utils.dart';
@@ -20,12 +21,12 @@ class AuthService {
   }) async {
     try {
       User user = User(
-        id: '',
-        name: name,
-        password: password,
-        email: email,
-        token: '',
-      );
+          id: '',
+          name: name,
+          password: password,
+          email: email,
+          token: '',
+          profileImage: '');
       http.Response res = await http.post(
         Uri.parse('${Constants.baseURL}api/signup'),
         body: user.toJson(),
@@ -71,7 +72,7 @@ class AuthService {
                 'x-auth-token', jsonDecode(res.body)['token']);
             navigator.pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: ((context) => MainScreen()),
+                builder: ((context) => SplashScreen()),
               ),
               (route) => false,
             );

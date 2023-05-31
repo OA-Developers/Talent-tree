@@ -105,8 +105,8 @@ class _CouponsPageState extends State<CouponsPage> {
                       ActionButton(
                           height: 50,
                           width: 150,
-                          backgroundColor: Colors.grey.shade400,
-                          textColor: Colors.black54,
+                          backgroundColor: Color.fromARGB(255, 56, 182, 255),
+                          textColor: Colors.white,
                           text: "SKIP",
                           onPressed: () {
                             Navigator.push(
@@ -119,7 +119,7 @@ class _CouponsPageState extends State<CouponsPage> {
                       ActionButton(
                         height: 50,
                         width: 150,
-                        backgroundColor: Colors.black87,
+                        backgroundColor: Color.fromARGB(255, 34, 147, 212),
                         textColor: Colors.white,
                         text: "APPLY",
                         onPressed: () async {

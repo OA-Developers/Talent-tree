@@ -61,9 +61,10 @@ export default function Users() {
     <div className='p-5'>
       <Table dataSource={users}>
         <Table.Column dataIndex="logo" key="logo" render={(c, record) => {
+
           return (
 
-            <Avatar src={record.profileImage ? `${API_URL}/files${record.profileImage}` : logo} />
+            <Avatar src={record.profileImage ? `${API_URL}/${record.profileImage}` : logo} />
           )
         }
         }

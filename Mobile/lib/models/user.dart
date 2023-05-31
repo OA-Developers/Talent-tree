@@ -7,6 +7,7 @@ class User {
   final String email;
   final String token;
   final String password;
+  final String profileImage;
 
   User({
     required this.id,
@@ -14,6 +15,7 @@ class User {
     required this.email,
     required this.token,
     required this.password,
+    required this.profileImage,
   });
 
   User copyWith({
@@ -22,6 +24,7 @@ class User {
     String? email,
     String? token,
     String? password,
+    String? profileImage,
   }) {
     return User(
       id: id ?? this.id,
@@ -29,6 +32,7 @@ class User {
       email: email ?? this.email,
       token: token ?? this.token,
       password: password ?? this.password,
+      profileImage: profileImage ?? this.profileImage,
     );
   }
 
@@ -38,6 +42,7 @@ class User {
       'email': email,
       'token': token,
       'password': password,
+      'profileImage': profileImage,
     };
   }
 
@@ -48,6 +53,7 @@ class User {
       email: map['email'] as String,
       token: map['token'] as String,
       password: map['password'] as String,
+      profileImage: map['profileImage'] as String,
     );
   }
 
@@ -69,7 +75,8 @@ class User {
         other.name == name &&
         other.email == email &&
         other.token == token &&
-        other.password == password;
+        other.password == password &&
+        other.profileImage == profileImage;
   }
 
   @override
@@ -78,6 +85,7 @@ class User {
         name.hashCode ^
         email.hashCode ^
         token.hashCode ^
-        password.hashCode;
+        password.hashCode ^
+        profileImage.hashCode;
   }
 }

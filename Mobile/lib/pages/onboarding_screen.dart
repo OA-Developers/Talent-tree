@@ -13,13 +13,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final controller = PageController();
   final List<Map<String, String>> onboardingPages = [
     {
-      'image': 'assets/images/welcome1.png',
+      'image': 'assets/images/welcome2.png',
       'title': 'Audition Updates',
       'description':
-          "Here We will provide you with regular updates about auditions helping you increase success in the highly competitive entertainment industry."
+          "If you're an aspiring performer and want to stay informed about the latest audition updates, you can sign up for the Talent Tree app. It will give you regular updates about auditions, which can help you increase your chances of success in the entertainment industry."
     },
     {
-      'image': 'assets/images/welcome2.png',
+      'image': 'assets/images/welcome1.png',
       'title': 'About Courses',
       'description':
           "Talent Tree app not only provides regular updates about upcoming auditions but also offers a range of courses to help aspiring performers hone their skills. These courses are designed to provide trainning in various aspects of performing arts including action modelling and debate."
