@@ -226,4 +226,20 @@ userRouter.get('/getUserRegistration', async (req, res) => {
     }
 });
 
+userRouter.get("/getAllRegistrations", async (req, res) => {
+    try {
+        const registrations = await Registration.find({});
+        if (registrations) {
+            res.status(200).json({ registrations });
+        }
+        else {
+            res.status(404).json({ msg: "No registrations found" });
+        }
+
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ msg: "Server error" });
+    }
+})
+
 module.exports = userRouter;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { GrChat, GrGroup, GrTransaction } from "react-icons/gr";
-import { MdOutlineDashboard, MdOutlineGroup } from "react-icons/md";
+import { MdAppRegistration, MdOutlineDashboard, MdOutlineGroup } from "react-icons/md";
 import { MdOutlineSubscriptions } from "react-icons/md";
 
 import logo_h from "../assets/logo_h.png"
@@ -80,11 +80,11 @@ export default function Sidebar() {
 
           <Link
             className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md no::text-gray-400 hover:bg-gray-100 no::hover:bg-gray-800 no::hover:text-gray-200 hover:text-gray-700"
-            to="/revenue"
+            to="/registrations"
           >
-            <FaMoneyBill />
+            <MdAppRegistration />
 
-            <span className="mx-4 font-medium">Revenue Details</span>
+            <span className="mx-4 font-medium">Registration Details</span>
           </Link>
 
           <Link
