@@ -63,7 +63,7 @@ actingOpeningRouter.get('/openings', async (req, res) => {
 
         const convertedOpenings = openings.map(opening => {
             const convertedTime = moment(opening.time).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
-            return { ...opening._doc, convertedTime };
+            return { ...opening._doc, time: convertedTime };
         });
 
         res.status(200).json(convertedOpenings);
@@ -72,6 +72,28 @@ actingOpeningRouter.get('/openings', async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+// actingOpeningRouter.get('/openings', async (req, res) => {
+//     try {
+//         const category = req.query.category;
+//         let openings;
+
+//         if (category) {
+//             openings = await ActingOpening.find({ category });
+//         } else {
+//             openings = await ActingOpening.find();
+//         }
+
+//         const convertedOpenings = openings.map(opening => {
+//             opening.time = moment(opening.time).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
+//             return opening;
+//         });
+
+//         res.status(200).json(convertedOpenings);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// });
 
 
 
