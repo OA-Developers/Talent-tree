@@ -14,9 +14,9 @@ class AudiencePage extends StatefulWidget {
 }
 
 class _AudiencePageState extends State<AudiencePage> {
-  String? tvBanner;
-  String? webBanner;
-  String? adBanner;
+  String? tvBanner = "";
+  String? webBanner = "";
+  String? adBanner = "";
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _AudiencePageState extends State<AudiencePage> {
                 children: [
                   Expanded(
                     child: Card(
-                      color: const Color.fromARGB(255, 28, 28, 39),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: InkWell(
                         onTap: () {
                           // Perform action when TV Shows tile is tapped.
@@ -87,17 +87,10 @@ class _AudiencePageState extends State<AudiencePage> {
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
                             decoration: BoxDecoration(
-                              image: tvBanner != null
-                                  ? DecorationImage(
-                                      image: NetworkImage(tvBanner!),
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  : const DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/tv_shows_banner.png',
-                                      ),
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                              image: DecorationImage(
+                                image: NetworkImage(tvBanner!),
+                                fit: BoxFit.fitWidth,
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -107,7 +100,7 @@ class _AudiencePageState extends State<AudiencePage> {
                   ),
                   Expanded(
                     child: Card(
-                      color: const Color.fromARGB(255, 28, 28, 39),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: InkWell(
                         onTap: () {
                           // Perform action when Movies tile is tapped.
@@ -124,17 +117,10 @@ class _AudiencePageState extends State<AudiencePage> {
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
                             decoration: BoxDecoration(
-                              image: webBanner != null
-                                  ? DecorationImage(
-                                      image: NetworkImage(webBanner!),
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  : const DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/movie_banner.png',
-                                      ),
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                              image: DecorationImage(
+                                image: NetworkImage(webBanner!),
+                                fit: BoxFit.fitWidth,
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -144,7 +130,7 @@ class _AudiencePageState extends State<AudiencePage> {
                   ),
                   Expanded(
                     child: Card(
-                      color: const Color.fromARGB(255, 28, 28, 39),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       child: InkWell(
                         onTap: () {
                           // Perform action when Web & Ads tile is tapped.
@@ -161,17 +147,10 @@ class _AudiencePageState extends State<AudiencePage> {
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
                             decoration: BoxDecoration(
-                              image: adBanner != null
-                                  ? DecorationImage(
-                                      image: NetworkImage(adBanner!),
-                                      fit: BoxFit.fitWidth,
-                                    )
-                                  : const DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/ad_shoot_banner.png',
-                                      ),
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                              image: DecorationImage(
+                                image: NetworkImage(adBanner!),
+                                fit: BoxFit.fitWidth,
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),

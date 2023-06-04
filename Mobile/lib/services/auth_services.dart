@@ -82,7 +82,7 @@ class AuthService {
     }
   }
 
-  void getUserData(BuildContext context) async {
+  Future<void> getUserData(BuildContext context) async {
     try {
       var userProvider = Provider.of<UserProvider>(
         context,
@@ -95,21 +95,24 @@ class AuthService {
       }
 
       var tokenRes = await http.post(
-          Uri.parse('${Constants.baseURL}tokenIsValid'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': token!
-          });
+        Uri.parse('${Constants.baseURL}tokenIsValid'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token!
+        },
+      );
       var response = jsonDecode(tokenRes.body);
 
       if (response == true) {
-        http.Response userRes = await http.get(
-            Uri.parse('${Constants.baseURL}getUser'),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-              'x-auth-token': token
-            });
-        var jsonResponse = json.decode(userRes.body);
+        var userRes = await http.get(
+          Uri.parse('${Constants.baseURL}getUser'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token,
+          },
+        );
+        var jsonResponse = jsonDecode(userRes.body);
+        print(jsonResponse);
         // var user = jsonResponse['user'];
         userProvider.setUser(userRes.body);
         userProvider.setIsSubscrbed(jsonResponse['isSubscribed']);

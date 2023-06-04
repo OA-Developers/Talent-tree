@@ -7,51 +7,37 @@ const { Option } = Select;
 const API_URL = process.env.REACT_APP_API_URL;
 
 const RegistrationPage = () => {
-    const [registrations, setRegistrations] = useState([
-        {
-            _id: "645e887919e5e3f600562a1a",
-            userId: "645799b1bb2f446df8788871",
-            fullName: "Demo Demo",
-            gender: "male",
-            email: "demo@mail.com",
-            mobile: "79XXXXXXX",
-            mobileAlt: "79XXXXXXX",
-            dob: "12 December",
-            state: "Demo",
-            district: "Demo",
-            city: "Demo",
-            currentCity: "Demo",
-            height: "5'8",
-            experience: "",
-            __v: 0,
-        },
-        // Add more registrations here
-    ]);
+    const [registrations, setRegistrations] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [filterOptions, setFilterOptions] = useState({
+        type: '',
+        value: '',
+    });
+    useEffect(() => {
+        setFilteredData(registrations);
+    }, [registrations]);
 
     const fetchUsers = async () => {
         try {
             const data = await axios.get(`${API_URL}/getAllRegistrations`);
             if (data.data.registrations) {
-                console.log(data);
                 setRegistrations(data.data.registrations);
-
             } else {
-                message.error("Failed to fetch registrations");
+                message.error('Failed to fetch registrations');
             }
         } catch (e) {
             console.log(e);
-            message.error("Failed to fetch registrations");
+            message.error('Failed to fetch registrations');
         }
-    }
-    useEffect(() => { fetchUsers() }, [])
+    };
 
-    const [filterOptions, setFilterOptions] = useState({
-        type: '',
-        value: '',
-    });
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
+    useEffect(() => {
+        applyFilter();
+    }, [filterOptions]);
 
     const handleFilterChange = (name, value) => {
         setFilterOptions((prevFilterOptions) => ({
@@ -60,27 +46,24 @@ const RegistrationPage = () => {
         }));
     };
 
-    const filteredData = registrations.filter((registration) => {
+    const applyFilter = () => {
         const { type, value } = filterOptions;
 
         if (type && value) {
-            // Apply filters
-            if (type === 'gender' && registration.gender !== value) {
-                return false;
-            }
-            if (type === 'city' && registration.city !== value) {
-                return false;
-            }
-            if (type === 'state' && registration.state !== value) {
-                return false;
-            }
-            if (type === 'dob' && registration.dob !== value) {
-                return false;
-            }
-        }
+            const lowerCaseValue = value.toLowerCase();
 
-        return true;
-    });
+            const filteredRegistrations = registrations.filter((registration) => {
+                const lowerCaseRegistrationValue = registration[type].toLowerCase();
+
+                return lowerCaseRegistrationValue.includes(lowerCaseValue);
+            });
+
+            setFilteredData(filteredRegistrations);
+        } else {
+            setFilteredData(registrations);
+        }
+    };
+
 
     const columns = [
         {
@@ -123,13 +106,18 @@ const RegistrationPage = () => {
     ];
 
     const handleView = (record) => {
-        setSelectedData(record);
-        setModalVisible(true);
-    };
-
-    const closeModal = () => {
-        setSelectedData(null);
-        setModalVisible(false);
+        Modal.info({
+            title: 'Registration Details',
+            content: (
+                <div>
+                    {Object.entries(record).map(([key, value]) => (
+                        <p key={key}>
+                            {key}: {value}
+                        </p>
+                    ))}
+                </div>
+            ),
+        });
     };
 
     return (
@@ -139,8 +127,7 @@ const RegistrationPage = () => {
                 <Space>
                     <Select
                         value={filterOptions.type}
-                        // size=''
-                        style={{ width: "200px" }}
+                        style={{ width: '200px' }}
                         onChange={(value) => handleFilterChange('type', value)}
                     >
                         <Option value="">Select Filter Type</Option>
@@ -154,25 +141,10 @@ const RegistrationPage = () => {
                         value={filterOptions.value}
                         onChange={(e) => handleFilterChange('value', e.target.value)}
                     />
+                    <Button onClick={applyFilter}>Search</Button>
                 </Space>
             </div>
             <Table dataSource={filteredData} columns={columns} />
-            <Modal
-                title="Registration Details"
-                visible={modalVisible}
-                onCancel={closeModal}
-                footer={null}
-            >
-                {selectedData && (
-                    <div>
-                        {Object.entries(selectedData).map(([key, value]) => (
-                            <p key={key}>
-                                {key}: {value}
-                            </p>
-                        ))}
-                    </div>
-                )}
-            </Modal>
         </div>
     );
 };

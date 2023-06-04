@@ -136,11 +136,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     CircleAvatar(
                       radius: 80.0,
-                      backgroundImage: user.profileImage != ""
-                          ? NetworkImage(
-                              '${Constants.baseURL}files/${user.profileImage}')
-                          : AssetImage('assets/images/logo.png')
-                              as ImageProvider<Object>,
+                      backgroundImage: imageProvider,
                     ),
                     Container(
                       decoration: BoxDecoration(
