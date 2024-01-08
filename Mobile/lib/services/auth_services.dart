@@ -38,7 +38,8 @@ class AuthService {
           response: res,
           context: context,
           onSuccess: () {
-            showSnackBar(context, 'Account created! Login to continue!');
+            siginUser(context: context, email: email, password: password);
+            showSnackBar(context, 'Logged In');
           });
     } catch (e) {
       showSnackBar(context, e.toString());

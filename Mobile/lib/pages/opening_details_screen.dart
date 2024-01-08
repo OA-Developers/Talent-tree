@@ -212,7 +212,7 @@ class _OpeningDetailsScreenState extends State<OpeningDetailsScreen> {
                     Expanded(
                       child: ElevatedButton.icon(
                         icon: const Icon(
-                          Icons.whatsapp,
+                          Icons.wechat_sharp,
                           color: Colors.white,
                         ),
                         style: ElevatedButton.styleFrom(

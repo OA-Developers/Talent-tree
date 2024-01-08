@@ -63,7 +63,7 @@ const RegistrationPage = () => {
             setFilteredData(registrations);
         }
     };
-
+ 
 
     const columns = [
         {

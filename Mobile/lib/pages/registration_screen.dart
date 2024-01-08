@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,9 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController dateInput = TextEditingController();
+
+  TextEditingController _stateController = TextEditingController();
+  TextEditingController _cityController = TextEditingController();
 
   List<String> states = [
     "Andaman and Nicobar Islands",
@@ -771,73 +775,91 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  DropdownButtonFormField<String>(
-                    // value: _state,
-                    hint: Text('Select a state*'),
-                    onChanged: (value) {
+                  TypeAheadField<String>(
+                    controller: _stateController,
+                    suggestionsCallback: (pattern) {
+                      return states
+                          .where((state) => state
+                              .toLowerCase()
+                              .contains(pattern.toLowerCase()))
+                          .toList(); // Convert Iterable to List
+                    },
+                    builder: (context, controller, focusNode) {
+                      return TextField(
+                        controller: controller,
+                        focusNode: focusNode,
+                        decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          label: Text("Select Your State"),
+                          hintStyle: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
+                      );
+                    },
+                    itemBuilder: (context, state) {
+                      return ListTile(
+                        title: Text(state),
+                      );
+                    },
+                    onSelected: (value) {
                       setState(() {
-                        _state = value!;
+                        _state = value;
                         _city = null; // Reset the selected city
                       });
+                      _stateController.text = value;
                     },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select a state';
-                      }
-                      return null;
-                    },
-                    items: states.map((state) {
-                      return DropdownMenuItem<String>(
-                        value: state,
-                        child: Text(state),
-                      );
-                    }).toList(),
                   ),
                   SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    // value: _city,
-                    hint: Text('Select a city*'),
-                    onChanged: (value) {
-                      setState(() {
-                        _city = value;
-                      });
+                  TypeAheadField<String>(
+                    controller: _cityController,
+                    suggestionsCallback: (pattern) {
+                      return cities
+                          .where((city) => city
+                              .toLowerCase()
+                              .contains(pattern.toLowerCase()))
+                          .toList(); // Convert Iterable to List
                     },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select a city';
-                      }
-                      return null;
-                    },
-                    items: cities.map((city) {
-                      return DropdownMenuItem<String>(
-                        value: city,
-                        child: Text(city),
+                    builder: (context, controller, focusNode) {
+                      return TextField(
+                        controller: controller,
+                        focusNode: focusNode,
+                        decoration: const InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          label: Text("Select Your City"),
+                          hintStyle: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
                       );
-                    }).toList(),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  DropdownButtonFormField<String>(
-                    // value: _city,
-                    hint: Text('Select Current city*'),
-                    onChanged: (value) {
-                      setState(() {
-                        _currentCity = value;
-                      });
                     },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please select current city';
-                      }
-                      return null;
-                    },
-                    items: cities.map((city) {
-                      return DropdownMenuItem<String>(
-                        value: city,
-                        child: Text(city),
+                    itemBuilder: (context, city) {
+                      return ListTile(
+                        title: Text(city),
                       );
-                    }).toList(),
+                    },
+                    onSelected: (value) {
+                      setState(() {
+                        _city = value; // Reset the selected city
+                      });
+                      _cityController.text = value;
+                    },
                   ),
                   const SizedBox(
                     height: 15,
