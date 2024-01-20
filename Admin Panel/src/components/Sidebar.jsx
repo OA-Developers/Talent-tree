@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GrChat, GrGroup, GrTransaction } from "react-icons/gr";
 import { MdAppRegistration, MdOutlineDashboard, MdOutlineGroup } from "react-icons/md";
 import { MdOutlineSubscriptions } from "react-icons/md";
@@ -9,7 +9,9 @@ import logo from "../assets/logo.png"
 import { FiSettings } from "react-icons/fi";
 import { FaGift, FaMoneyBill, FaUser } from "react-icons/fa";
 
+
 export default function Sidebar() {
+  const navigate = useNavigate();
   return (
     <aside className="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto bg-white border-r drop-shadow-md border-gray-300">
       <Link to="/">
@@ -97,6 +99,7 @@ export default function Sidebar() {
           </Link>
         </nav>
 
+
         <a href="#" className="flex items-center px-4 -mx-2">
           <img
             className="object-cover mx-2 rounded-full h-9 w-9"
@@ -107,6 +110,10 @@ export default function Sidebar() {
             Admin
           </span>
         </a>
+        <button onClick={()=>{
+          localStorage.removeItem("user");
+          navigate("/login");
+        }} className="px-1 py-2 bg-red-500 rounded text-white">LogOut</button>
       </div>
     </aside>
   );
