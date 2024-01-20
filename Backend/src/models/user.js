@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
   },
   mobile: {
     required: true,
-    type: Number,
+    type: String,
   },
   isVerified: {
     type: Boolean,
