@@ -241,5 +241,14 @@ userRouter.get("/getAllRegistrations", async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 })
+userRouter.get("/exportRegistrations",async (req,res)=>{
+    try{
+        const registrations = await Registration.find().toArray();
+        res.json(registrations);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ msg: "Server error" });
+    }
+})
 
 module.exports = userRouter;
