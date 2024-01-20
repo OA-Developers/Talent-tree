@@ -154,7 +154,7 @@ const RegistrationPage = () => {
             onChange={(e) => handleFilterChange("value", e.target.value)}
           />
           <Button onClick={applyFilter}>Search</Button>
-          <Button className="text-white bg-red-500" onClick={applyFilter}>
+          <Button className="text-white bg-red-500" onClick={exportAllRegistration}>
             Export Data
           </Button>
         </Space>
