@@ -38,10 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
     videoPlayerController.addListener(() {
       if (videoPlayerController.value.position ==
           videoPlayerController.value.duration) {
-        if (Provider.of<UserProvider>(context, listen: false)
-            .user
-            .token
-            .isEmpty) {
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+
+        if (userProvider.user.token.isEmpty) {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const OnboardingScreen()),

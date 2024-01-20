@@ -4,7 +4,6 @@ import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import "package:talent_tree/models/user.dart";
 import "package:http/http.dart" as http;
-import 'package:talent_tree/pages/main_screen.dart';
 import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/pages/splash_screen.dart';
 import 'package:talent_tree/providers/user_provider.dart';
@@ -15,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
   void signUpUser({
     required BuildContext context,
-    required String email,
+    required String mobile,
     required String password,
     required String name,
   }) async {
@@ -24,7 +23,7 @@ class AuthService {
           id: '',
           name: name,
           password: password,
-          email: email,
+          mobile: mobile,
           token: '',
           profileImage: '');
       http.Response res = await http.post(
@@ -38,7 +37,7 @@ class AuthService {
           response: res,
           context: context,
           onSuccess: () {
-            siginUser(context: context, email: email, password: password);
+            siginUser(context: context, mobile: mobile, password: password);
             showSnackBar(context, 'Logged In');
           });
     } catch (e) {
@@ -48,7 +47,7 @@ class AuthService {
 
   void siginUser(
       {required BuildContext context,
-      required String email,
+      required String mobile,
       required String password}) async {
     try {
       var userProvider = Provider.of<UserProvider>(
@@ -58,7 +57,7 @@ class AuthService {
       final navigator = Navigator.of(context);
       http.Response res = await http.post(
           Uri.parse('${Constants.baseURL}api/signin'),
-          body: jsonEncode({'email': email, 'password': password}),
+          body: jsonEncode({'mobile': mobile, 'password': password}),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           });
@@ -92,6 +91,7 @@ class AuthService {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
       if (token == null) {
+        token ="";
         prefs.setString('x-auth-token', '');
       }
 
@@ -99,7 +99,7 @@ class AuthService {
         Uri.parse('${Constants.baseURL}tokenIsValid'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': token!
+          'x-auth-token': token
         },
       );
       var response = jsonDecode(tokenRes.body);

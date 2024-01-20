@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/login_screen.dart';
 import 'package:talent_tree/pages/main_screen.dart';
+import 'package:talent_tree/pages/otp_page.dart';
 import 'package:talent_tree/pages/terms_and_conditions.dart';
 import 'package:talent_tree/services/auth_services.dart';
 import 'package:talent_tree/utils/utils.dart';
@@ -15,15 +17,15 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  final AuthService authService = AuthService();
+  
 
   bool isChecked = false;
 
   void signupUser() {
-    if (emailController.text.isEmpty ||
+    if (mobileController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty) {
       showSnackBar(context, "All Field's are required!");
@@ -33,11 +35,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       showSnackBar(context, "Passwords Doesn't Match!");
       return;
     }
-    authService.signUpUser(
-        context: context,
-        email: emailController.text,
-        password: passwordController.text,
-        name: '');
+   Navigator.of(context).push(MaterialPageRoute(
+      builder: ((context) => OTPScreen(
+            mobile: mobileController.text,
+            password: passwordController.text,
+            outlet: "register",
+          )),
+    ));
   }
 
   @override
@@ -68,8 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 25),
               LoginInputField(
-                hintText: 'Email',
-                controller: emailController,
+                hintText: 'mobile',
+                controller: mobileController,
               ),
               const SizedBox(height: 25),
               LoginInputField(
@@ -160,45 +164,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ));
                     })
               ]),
-              const SizedBox(height: 35),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'By registering you agree to our ',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
+              const SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        children: [
+                          const TextSpan(
+                            text: 'By registering you agree to our ',
+                          ),
+                          TextSpan(
+                            text: 'terms & conditions',
+                            style: TextStyle(
+                color: Colors.blue,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const TermsAndConditions(),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const TermsAndConditions(),
-                          ));
-                    },
-                    child: const Text(
-                      'terms & conditions',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
+                  );
+                },
+                          ),
+                          const TextSpan(
+                            text: '.',
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const Text(
-                    '.',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               )
+
             ],
           ),
         ),

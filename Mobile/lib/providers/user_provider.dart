@@ -3,7 +3,7 @@ import 'package:talent_tree/models/user.dart';
 
 class UserProvider extends ChangeNotifier {
   User _user = User(
-      id: '', name: '', email: '', token: '', password: '', profileImage: '');
+      id: '', name: '', mobile: '', token: '', password: '', profileImage: '');
   bool _isSubscribed = false;
   bool _isRegistered = false;
 

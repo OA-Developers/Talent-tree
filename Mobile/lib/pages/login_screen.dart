@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talent_tree/pages/forgot_pass.dart';
-import 'package:talent_tree/pages/main_screen.dart';
+import 'package:talent_tree/pages/otp_page.dart';
 import 'package:talent_tree/pages/register_screen.dart';
 import 'package:talent_tree/services/auth_services.dart';
 import 'package:talent_tree/utils/utils.dart';
@@ -15,21 +15,23 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final AuthService authService = AuthService();
 
   void loginUser() {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    if (mobileController.text.isEmpty || passwordController.text.isEmpty) {
       showSnackBar(context, "All Field's are required!");
       return;
     }
-
-    authService.siginUser(
-      context: context,
-      email: emailController.text,
-      password: passwordController.text,
-    );
+    
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: ((context) => OTPScreen(
+            mobile: mobileController.text,
+            password: passwordController.text,
+            outlet: "login",
+          )),
+    ));
   }
 
   @override
@@ -50,9 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 15,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   SizedBox(
                     width: 15,
                   ),
@@ -68,8 +70,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 25),
               LoginInputField(
-                hintText: 'Email',
-                controller: emailController,
+                hintText: 'Mobile Number',
+                controller: mobileController,
               ),
               const SizedBox(height: 25),
               LoginInputField(
@@ -105,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   ActionButton(
                     height: 50,
                     width: 100,

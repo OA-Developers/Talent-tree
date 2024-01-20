@@ -4,7 +4,7 @@ import 'dart:convert';
 class User {
   final String id;
   final String name;
-  final String email;
+  final String mobile;
   final String token;
   final String password;
   final String profileImage;
@@ -12,7 +12,7 @@ class User {
   User({
     required this.id,
     required this.name,
-    required this.email,
+    required this.mobile,
     required this.token,
     required this.password,
     required this.profileImage,
@@ -29,7 +29,7 @@ class User {
     return User(
       id: id ?? this.id,
       name: name ?? this.name,
-      email: email ?? this.email,
+      mobile: mobile ?? this.mobile,
       token: token ?? this.token,
       password: password ?? this.password,
       profileImage: profileImage ?? this.profileImage,
@@ -39,7 +39,7 @@ class User {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
-      'email': email,
+      'mobile': mobile,
       'token': token,
       'password': password,
       'profileImage': profileImage,
@@ -50,7 +50,7 @@ class User {
     return User(
       id: map['_id'] as String,
       name: map['name'] as String,
-      email: map['email'] as String,
+      mobile: map['mobile'] as String,
       token: map['token'] as String,
       password: map['password'] as String,
       profileImage: map['profileImage'] as String,
@@ -64,7 +64,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, token: $token, password: $password)';
+    return 'User(id: $id, name: $name, email: $mobile, token: $token, password: $password)';
   }
 
   @override
@@ -73,7 +73,7 @@ class User {
 
     return other.id == id &&
         other.name == name &&
-        other.email == email &&
+        other.mobile == mobile &&
         other.token == token &&
         other.password == password &&
         other.profileImage == profileImage;
@@ -83,7 +83,7 @@ class User {
   int get hashCode {
     return id.hashCode ^
         name.hashCode ^
-        email.hashCode ^
+        mobile.hashCode ^
         token.hashCode ^
         password.hashCode ^
         profileImage.hashCode;

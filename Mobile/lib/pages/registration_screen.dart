@@ -568,6 +568,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // }
 
       final response = await request.send();
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         // Handle successful registration

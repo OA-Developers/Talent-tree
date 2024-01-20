@@ -21,7 +21,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   File? _imageFile;
   late TextEditingController _nameController;
-  late TextEditingController _emailController;
+  late TextEditingController _mobileController;
   late User user;
   final AuthService authSerivce = AuthService();
 
@@ -30,7 +30,7 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     user = Provider.of<UserProvider>(context, listen: false).user;
     _nameController = TextEditingController(text: user.name);
-    _emailController = TextEditingController(text: user.email);
+    _mobileController = TextEditingController(text: user.mobile);
     fetchData();
   }
 
@@ -54,7 +54,7 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<void> saveChanges() async {
     String newName = _nameController.text;
-    String newEmail = _emailController.text;
+    String newmobile = _mobileController.text;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('x-auth-token');
     final Map<String, String> headers = {
@@ -176,10 +176,10 @@ class _EditProfileState extends State<EditProfile> {
                   color: Colors.grey[200],
                 ),
                 child: TextFormField(
-                  controller: _emailController,
+                  controller: _mobileController,
                   enabled: false,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Mobile Number',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                   ),
