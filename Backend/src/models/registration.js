@@ -46,7 +46,7 @@ const registrationSchema = mongoose.Schema({
     },
     currentCity: {
         type: String,
-        required: true,
+        required: false,
     },
     height: {
         type: String,
