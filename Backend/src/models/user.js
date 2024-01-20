@@ -19,19 +19,6 @@ const userSchema = mongoose.Schema({
   name: {
     type: String,
   },
-  // email: {
-  //   type: String,
-  //   required: true,
-  //   unique: true,
-  //   validate: {
-  //     validator: (value) => {
-  //       const ex =
-  //         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  //       return value.match(ex);
-  //     },
-  //     message: "Please enter a valid email address",
-  //   },
-  // },
   password: {
     required: true,
     type: String,
@@ -39,14 +26,6 @@ const userSchema = mongoose.Schema({
   mobile: {
     required: true,
     type: Number,
-  },
-  otp: {
-    type: String,
-    default: null,
-  },
-  otpExpiry: {
-    type: Date,
-    default: null,
   },
   isVerified: {
     type: Boolean,
