@@ -33,8 +33,12 @@ const RegistrationPage = () => {
   };
   const exportAllRegistration = async () => {
     try {
-      const data = await axios.get(`${API_URL}/exportRegistrations`);
-      const ws = XLSX.utils.json_to_sheet(data);
+      const response = await axios.get(`${API_URL}/exportRegistrations`);
+      console.log(typeof data);
+      const userData = [
+        ...response.data
+      ];
+      const ws = XLSX.utils.json_to_sheet(userData);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
       XLSX.writeFile(wb, "output.xlsx");

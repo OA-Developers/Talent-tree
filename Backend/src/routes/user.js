@@ -243,8 +243,7 @@ userRouter.get("/getAllRegistrations", async (req, res) => {
 })
 userRouter.get("/exportRegistrations",async (req,res)=>{
     try{
-        const cursor = await Registration.find().fetch();
-        const data = await cursor.toArray();
+        const data = await Registration.find({});
         res.json(data);
     } catch (e) {
         console.log(e);
