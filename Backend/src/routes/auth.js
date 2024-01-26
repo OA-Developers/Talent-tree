@@ -5,13 +5,11 @@ const nodemailer = require("nodemailer");
 const User = require("../models/user");
 const adminUser = require("../models/adminUser");
 const Registration = require("../models/registration");
-const axios = require('axios');
+const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
 
-const auth = require("../middlewares/auth")
-
-
+const auth = require("../middlewares/auth");
 
 // admin signin`
 
@@ -37,8 +35,7 @@ authRouter.post("/admin/login", async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-})
-
+});
 
 // Sign Up
 authRouter.post("/api/signup", async (req, res) => {
@@ -47,14 +44,18 @@ authRouter.post("/api/signup", async (req, res) => {
 
     // Check if mobile and password are empty
     if (!mobile || !password) {
-      return res.status(400).json({ msg: "Mobile and password are required fields." });
+      return res
+        .status(400)
+        .json({ msg: "Mobile and password are required fields." });
     }
 
     const name = `Talent${getRandomNumber(1, 10000)}`;
 
     const existingUser = await User.findOne({ mobile });
     if (existingUser) {
-      return res.status(400).json({ msg: "User with the same mobile already exists!" });
+      return res
+        .status(400)
+        .json({ msg: "User with the same mobile already exists!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 8);
@@ -63,7 +64,7 @@ authRouter.post("/api/signup", async (req, res) => {
       name,
       password: hashedPassword,
       mobile,
-      profileImage: ""
+      profileImage: "",
     });
     user = await user.save();
 
@@ -80,7 +81,9 @@ authRouter.post("/api/signin", async (req, res) => {
 
     // Check if mobile and password are empty
     if (!mobile || !password) {
-      return res.status(400).json({ msg: "Mobile and password are required fields." });
+      return res
+        .status(400)
+        .json({ msg: "Mobile and password are required fields." });
     }
 
     const user = await User.findOne({ mobile });
@@ -103,10 +106,6 @@ authRouter.post("/api/signin", async (req, res) => {
   }
 });
 
-
-
-
-
 // Sign In
 
 authRouter.post("/api/signin", async (req, res) => {
@@ -118,7 +117,6 @@ authRouter.post("/api/signin", async (req, res) => {
         msg: "User with this mobile no does not exists!",
       });
     }
-
 
     const isMatch = await bcrypt.compare(password, user.password);
 
@@ -132,26 +130,21 @@ authRouter.post("/api/signin", async (req, res) => {
   }
 });
 
-
-
-
-
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     if (!token) {
       return res.json(false);
     }
-    const verified = jwt.verify(token, "passwordKey")
-    if (!verified)
-      return res.json(false);
+    const verified = jwt.verify(token, "passwordKey");
+    if (!verified) return res.json(false);
     const user = await User.findById(verified.id);
     if (!user) return res.json(false);
-    res.json(true)
+    res.json(true);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-})
+});
 
 authRouter.get("/getUser", auth, async (req, res) => {
   const user = await User.findById(req.user);
@@ -160,16 +153,20 @@ authRouter.get("/getUser", auth, async (req, res) => {
     return res.status(400).json({ msg: "User not found." });
   }
   const registration = await Registration.findOne({ userId: req.user });
-  var isRegistered;
-
-
-
+  let isRegistered;
+  let isSubscribed;
   if (registration) {
     isRegistered = true;
   } else {
-    isRegistered = false
+    isRegistered = false;
   }
-  const isSubscribed = user.subscription !== null;
+  const currentDate = new Date();
+  const endDate = new Date(user.subscription.endDate);
+  if (currentDate > endDate) {
+    isSubscribed = true;
+  } else {
+    isSubscribed = false;
+  }
   const response = {
     ...user._doc,
     token: req.token,
@@ -180,10 +177,6 @@ authRouter.get("/getUser", auth, async (req, res) => {
   res.json(response);
 });
 
-
-
-
 // Usage example:// prints a random number between 1 and 100
-
 
 module.exports = authRouter;
