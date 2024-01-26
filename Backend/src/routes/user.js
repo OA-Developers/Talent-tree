@@ -77,25 +77,32 @@ userRouter.post("/subscribe", auth, async (req, res) => {
     const userId = req.user;
     const { duration, paid } = req.body;
     const user = await User.findById(userId);
+
     if (user.subscription === null) {
-      const endDate = new Date(Date.now() + duration * 24 * 60 * 60 * 1000);
+      const startDate = new Date();
+      const endDate = new Date(startDate.getTime() + duration * 24 * 60 * 60 * 1000);
+
+      const newSubscription = {
+        plan: "basic", // Update the plan type as required
+        startDate,
+        endDate,
+      };
+
       await User.updateOne(
         { _id: userId },
         {
           $set: {
-            subscription: {
-              plan: "basic", // Update the plan type as required
-              startDate: new Date(),
-              endDate: endDate,
-            },
+            subscription: newSubscription,
           },
         }
       );
-      // add transaction
+
+      // Add transaction
       const description = "Audience Subscription";
       const amount = paid ? req.body.price : "0";
       const mode = paid ? "UPI" : "Coupon";
       const status = "PAID";
+
       const transaction = new Transaction({
         userId,
         description,
@@ -103,16 +110,45 @@ userRouter.post("/subscribe", auth, async (req, res) => {
         mode,
         status,
       });
+
       await transaction.save();
       res.status(200).json({ msg: "Successfully subscribed to the plan" });
     } else {
-      res.status(400).json({ msg: "You already have an active subscription" });
+      // Extend the existing subscription by updating the end date
+      const endDate = new Date(user.subscription.endDate.getTime() + duration * 24 * 60 * 60 * 1000);
+
+      await User.updateOne(
+        { _id: userId },
+        {
+          $set: {
+            'subscription.endDate': endDate,
+          },
+        }
+      );
+
+      // Add transaction for subscription extension
+      const description = "Audience Subscription Renewal";
+      const amount = paid ? req.body.price : "0";
+      const mode = paid ? "UPI" : "Coupon";
+      const status = "PAID";
+
+      const transaction = new Transaction({
+        userId,
+        description,
+        amount,
+        mode,
+        status,
+      });
+
+      await transaction.save();
+      res.status(200).json({ msg: "Successfully extended subscription" });
     }
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
   }
 });
+
 
 userRouter.post(
   "/update-profile",

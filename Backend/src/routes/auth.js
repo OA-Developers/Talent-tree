@@ -161,7 +161,7 @@ authRouter.get("/getUser", auth, async (req, res) => {
     if (user.subscription) {
       const currentDate = new Date();
       const endDate = new Date(user.subscription.endDate);
-      isSubscribed = currentDate > endDate;
+      isSubscribed = currentDate < endDate;
     }
 
     const response = {
