@@ -11,7 +11,6 @@ const crypto = require("crypto");
 const Transaction = require("../models/transactions");
 const Debate = require("../models/debate");
 
-
 // Check if user is subscribed and has access to feature
 
 const storage = multer.diskStorage({
@@ -298,19 +297,59 @@ userRouter.get("/getAllTransactions", async (req, res) => {
 });
 userRouter.get("/getStats", async (req, res) => {
   try {
-    const [totalAmountResult, debateCount, userCount, registrationCount] = await Promise.all([
-        Transaction.aggregate([{ $group: { _id: null, totalAmount: { $sum: "$amount" } } }]),
+    const [totalAmountResult, debateCount, userCount, registrationCount] =
+      await Promise.all([
+        Transaction.aggregate([
+          {
+            $group: {
+              _id: null,
+              totalAmount: { $sum: "$amount" },
+              monthlySum: {
+                $sum: {
+                  $cond: [
+                    {
+                      $gte: [
+                        "$date",
+                        new Date(new Date() - 30 * 24 * 60 * 60 * 1000),
+                      ],
+                    },
+                    "$amount",
+                    0,
+                  ],
+                },
+              },
+              weeklySum: {
+                $sum: {
+                  $cond: [
+                    {
+                      $gte: [
+                        "$date",
+                        new Date(new Date() - 7 * 24 * 60 * 60 * 1000),
+                      ],
+                    },
+                    "$amount",
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ]),
         Debate.countDocuments({}),
         User.countDocuments({}),
-        Registration.countDocuments({})
+        Registration.countDocuments({}),
       ]);
 
-    const totalAmount = totalAmountResult.length > 0?totalAmountResult[0].totalAmount:0;
-    res.json({ totalAmount,debateCount,userCount,registrationCount });
+    const totalAmount = totalAmountResult?.[0]?.totalAmount || 0;
+    const monthlySum = totalAmountResult?.[0]?.monthlySum || 0;
+    const weeklySum = totalAmountResult?.[0]?.weeklySum || 0;
+
+    res.json({ totalAmount, monthlySum, weeklySum, debateCount, userCount, registrationCount });
   } catch (error) {
     console.error("Error calculating total amount:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 module.exports = userRouter;

@@ -12,21 +12,20 @@ import { FiPackage } from "react-icons/fi";
 import { FaImage, FaRupeeSign, FaVideo } from "react-icons/fa";
 import axios from "axios";
 
-
 export default function Dashboard() {
   const [statsData, setStatsData] = useState({});
   const API_URL = process.env.REACT_APP_API_URL;
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/getStats`); 
+        const response = await axios.get(`${API_URL}/getStats`);
         setStatsData(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     fetchData();
   }, []);
   return (
@@ -63,13 +62,17 @@ export default function Dashboard() {
         className="shadow-lg drop-shadow-xl p-5 cursor-pointer"
       >
         <Col span={12}>
-          <Statistic title="Users" value={statsData.totalAmount} prefix={<UserOutlined />} />
+          <Statistic
+            title="Users"
+            value={statsData.userCount}
+            prefix={<UserOutlined />}
+          />
         </Col>
         <Col span={12}>
           <Statistic
             title="Debates"
             value={statsData.debateCount}
-            prefix={<VideoCameraOutlined  />}
+            prefix={<VideoCameraOutlined />}
           />
         </Col>
         <Col span={12}>
@@ -80,7 +83,25 @@ export default function Dashboard() {
           />
         </Col>
         <Col span={12}>
-          <Statistic title="Registrations" value={statsData.registrationCount} prefix={<FiPackage />} />
+          <Statistic
+            title="Registrations"
+            value={statsData.registrationCount}
+            prefix={<FiPackage />}
+          />
+        </Col>
+        <Col span={12}>
+          <Statistic
+            title="Weekly Earnings"
+            value={statsData.weeklySum}
+            prefix={<FaRupeeSign color="#575757" />}
+          />
+        </Col>
+        <Col span={12}>
+          <Statistic
+            title="Monthly Earnings"
+            value={statsData.monthlySum}
+            prefix={<FaRupeeSign color="#575757" />}
+          />
         </Col>
       </Row>
     </div>
