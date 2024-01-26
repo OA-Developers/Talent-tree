@@ -93,7 +93,7 @@ userRouter.post("/subscribe", auth, async (req, res) => {
       );
       // add transaction
       const description = "Audience Subscription";
-      const amount = paid ? req.price : "0";
+      const amount = paid ? req.body.price : "0";
       const mode = paid ? "UPI" : "Coupon";
       const status = "PAID";
       const transaction = new Transaction({
