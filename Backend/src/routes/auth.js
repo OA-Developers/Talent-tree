@@ -147,35 +147,37 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 });
 
 authRouter.get("/getUser", auth, async (req, res) => {
-  const user = await User.findById(req.user);
+  try {
+    const user = await User.findById(req.user);
 
-  if (!user) {
-    return res.status(400).json({ msg: "User not found." });
-  }
-  const registration = await Registration.findOne({ userId: req.user });
-  let isRegistered;
-  let isSubscribed;
-  if (registration) {
-    isRegistered = true;
-  } else {
-    isRegistered = false;
-  }
-  const currentDate = new Date();
-  const endDate = new Date(user.subscription.endDate);
-  if (currentDate > endDate) {
-    isSubscribed = true;
-  } else {
-    isSubscribed = false;
-  }
-  const response = {
-    ...user._doc,
-    token: req.token,
-    isSubscribed,
-    isRegistered: isRegistered,
-  };
+    if (!user) {
+      return res.status(400).json({ msg: "User not found." });
+    }
 
-  res.json(response);
+    const registration = await Registration.findOne({ userId: req.user });
+    let isRegistered = !!registration; // Using !! to convert to a boolean
+
+    let isSubscribed = false;
+    if (user.subscription) {
+      const currentDate = new Date();
+      const endDate = new Date(user.subscription.endDate);
+      isSubscribed = currentDate > endDate;
+    }
+
+    const response = {
+      ...user._doc,
+      token: req.token,
+      isSubscribed,
+      isRegistered,
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 
 // Usage example:// prints a random number between 1 and 100
 
