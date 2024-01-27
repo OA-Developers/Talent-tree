@@ -339,7 +339,9 @@ userRouter.get("/getStats", async (req, res) => {
           {
             $group: {
               _id: null,
-              totalAmount: { $sum: "$amount" },
+              totalAmount: {
+                $sum: { $toInt: "$amount" } // Convert amount to integer before summing
+              },
               monthlySum: {
                 $sum: {
                   $cond: [
@@ -349,7 +351,7 @@ userRouter.get("/getStats", async (req, res) => {
                         new Date(new Date() - 30 * 24 * 60 * 60 * 1000),
                       ],
                     },
-                    "$amount",
+                    { $toInt: "$amount" }, // Convert amount to integer if date condition is met
                     0,
                   ],
                 },
@@ -363,14 +365,14 @@ userRouter.get("/getStats", async (req, res) => {
                         new Date(new Date() - 7 * 24 * 60 * 60 * 1000),
                       ],
                     },
-                    "$amount",
+                    { $toInt: "$amount" }, // Convert amount to integer if date condition is met
                     0,
                   ],
                 },
               },
             },
           },
-        ]),
+        ]),        
         Debate.countDocuments({}),
         User.countDocuments({}),
         Registration.countDocuments({}),
