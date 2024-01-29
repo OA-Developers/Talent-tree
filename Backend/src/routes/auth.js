@@ -179,6 +179,28 @@ authRouter.get("/getUser", auth, async (req, res) => {
 });
 
 
-// Usage example:// prints a random number between 1 and 100
+authRouter.post("/api/reset-password", async (req, res) => {
+  try {
+    const { mobile, newPassword } = req.body;
+    if (!mobile || !newPassword) {
+      return res.status(400).json({ msg: "Mobile and newPassword are required fields." });
+    }
+    const user = await User.findOne({ mobile });
+
+    if (!user) {
+      return res.status(400).json({ msg: "User with this mobile number does not exist!" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 8);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.json({ token, msg: "Password reset successful." });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 
 module.exports = authRouter;
