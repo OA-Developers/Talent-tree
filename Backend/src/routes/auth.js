@@ -196,7 +196,7 @@ authRouter.post("/api/reset-password", async (req, res) => {
     user.password = hashedPassword;
     await user.save();
 
-    return res.json({ token, msg: "Password reset successful." });
+    return res.json({ msg: "Password reset successful." });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
